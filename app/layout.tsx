@@ -5,6 +5,7 @@ import { ThemeProvider } from "next-themes";
 import Header from "@/components/header/header";
 import Footer from "@/components/footer/footer";
 import { Poppins } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -39,8 +40,10 @@ export default function RootLayout({
               <Header />
             </div>
             <main>{children}</main>
+
             <Footer />
           </div>
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
