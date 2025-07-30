@@ -53,7 +53,7 @@ const ProjectSection = () => {
           <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 z-10" />
           <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 z-10" />
         </Carousel>
-        <div className="w-full h-[30rem] overflow-y-auto">
+        <div className="w-full h-[50rem] overflow-y-auto ">
           <h1 className="text-center text-5xl font-bold mb-10 px-2">
             PROJECTS - Ongoing
           </h1>

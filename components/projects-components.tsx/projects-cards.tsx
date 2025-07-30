@@ -4,7 +4,7 @@ import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { Radio } from "lucide-react";
-
+import { motion } from "framer-motion";
 const projectsArray = [
   {
     id: 1,
@@ -46,28 +46,39 @@ const projectsArray = [
 
 const ProjectCard = () => {
   return (
-    <div className="grid sm:grid-cols-2 lg:grid-cols-4 md:w-[80%] mx-auto gap-5 mb-10">
+    <div className="grid sm:grid-cols-2 lg:grid-cols-4 md:w-[80%] mx-auto gap-5 mb-10 ">
       {projectsArray.map((project) => (
-        <Card key={project.id} className="md:w-[100%]]">
-          <CardHeader>
-            <div className="border border-gray-300 flex items-center justify-center">
-              <Image
-                src={project.image}
-                alt={project.name}
-                width={400}
-                height={400}
-              />
-            </div>
-            <Badge variant="success">{project.status}</Badge>
-            <CardTitle>{project.name}</CardTitle>
-            <CardDescription>{project.description}</CardDescription>
-            <Button asChild>
-              <Link href={project.link}>
-                <Radio /> Visit Live Project
-              </Link>
-            </Button>
-          </CardHeader>
-        </Card>
+        <motion.div
+          key={project.id}
+          whileHover={{
+            scale: 1.05,
+            boxShadow: "0px 8px 20px rgba(0, 0, 0, 0.15)",
+          }}
+          whileTap={{ scale: 0.98 }}
+          transition={{ type: "spring", stiffness: 300 }}
+          className=" bg-white dark:bg-zinc-800 rounded-xl  cursor-pointer "
+        >
+          <Card className="md:w-[100%]] h-full">
+            <CardHeader>
+              <div className="border border-gray-300 flex items-center justify-center">
+                <Image
+                  src={project.image}
+                  alt={project.name}
+                  width={400}
+                  height={400}
+                />
+              </div>
+              <Badge variant="success">{project.status}</Badge>
+              <CardTitle>{project.name}</CardTitle>
+              <CardDescription>{project.description}</CardDescription>
+              <Button asChild>
+                <Link href={project.link}>
+                  <Radio /> Visit Live Project
+                </Link>
+              </Button>
+            </CardHeader>
+          </Card>
+        </motion.div>
       ))}
     </div>
   );

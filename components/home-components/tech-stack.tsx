@@ -23,6 +23,9 @@ const stacks = [
   {
     src: "/tech-stack/tailwind.png",
   },
+  {
+    src: "/images/github.png",
+  },
 ];
 const TechStack = () => {
   return (
