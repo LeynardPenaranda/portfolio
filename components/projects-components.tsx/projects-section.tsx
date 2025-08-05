@@ -13,10 +13,13 @@ import ProjectCard from "./projects-cards";
 
 const image = [
   {
-    src: "/images/project1.png",
+    src: "/banners/bannerPort.png",
   },
   {
-    src: "/images/project2.png",
+    src: "/banners/banner2.png",
+  },
+  {
+    src: "/banners/banner3.png",
   },
 ];
 
@@ -24,11 +27,11 @@ const ProjectSection = () => {
   return (
     <section
       id="projects"
-      className="w-full h-[50rem] flex items-center justify-between mt-40 "
+      className="w-full h-[50rem] flex items-center justify-between mt-50 "
     >
       <div className="w-full flex flex-col items-center justify-center">
         <Carousel
-          className="w-full md:w-[70%] mb-12 mt-10 "
+          className="w-full  lg:w-[80%] mb-12 mt-10 "
           opts={{
             loop: true,
           }}
@@ -44,9 +47,16 @@ const ProjectSection = () => {
             {image.map((project) => (
               <CarouselItem
                 key={project.src}
-                className="relative h-[15rem] mx-2 md:h-[25rem]"
+                className="h-[15rem] mx-2 md:h-[25rem] relative"
               >
-                <Image src={project.src} alt="project images" fill />
+                <Image
+                  src={project.src}
+                  alt="project images"
+                  width="0"
+                  height="0"
+                  sizes="100vw"
+                  className="w-full"
+                />
               </CarouselItem>
             ))}
           </CarouselContent>

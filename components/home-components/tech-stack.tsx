@@ -59,7 +59,7 @@ const TechStack = () => {
                 alt="stack"
                 width={40}
                 height={40}
-                className="rounded-sm"
+                className="rounded-sm drop-shadow-[0_0_4px_white]"
               />
             </motion.li>
           </AnimatePresence>

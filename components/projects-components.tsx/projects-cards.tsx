@@ -46,7 +46,7 @@ const projectsArray = [
 
 const ProjectCard = () => {
   return (
-    <div className="grid sm:grid-cols-2 lg:grid-cols-4 md:w-[80%] mx-auto gap-5 mb-10 ">
+    <div className="flex items-center justify-center flex-col sm:grid sm:grid-cols-2 lg:grid-cols-4 md:w-[80%] mx-auto gap-5 mb-10 ">
       {projectsArray.map((project) => (
         <motion.div
           key={project.id}
@@ -56,9 +56,9 @@ const ProjectCard = () => {
           }}
           whileTap={{ scale: 0.98 }}
           transition={{ type: "spring", stiffness: 300 }}
-          className=" bg-white dark:bg-zinc-800 rounded-xl  cursor-pointer "
+          className="bg-white dark:bg-zinc-800 rounded-xl  cursor-pointer w-[90%] md:w-[100%]"
         >
-          <Card className="md:w-[100%]] h-full">
+          <Card className="w-full h-full drop-shadow-[0_0_4px_white]">
             <CardHeader>
               <div className="border border-gray-300 flex items-center justify-center">
                 <Image

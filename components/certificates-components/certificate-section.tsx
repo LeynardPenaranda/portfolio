@@ -39,7 +39,7 @@ const CertificateCard = ({
       onMouseLeave={() => setHoveredIndex(null)}
       className="w-[80%] mx-auto md:mx-0 mt-5 mb-5"
     >
-      <Card className="grid grid-rows-2 sm:grid-rows-1 md:grid-cols-[10rem_1fr] cursor-pointer transition-shadow hover:shadow-lg">
+      <Card className="grid grid-rows-2 sm:grid-rows-1 md:grid-cols-1 lg:grid-cols-[10rem_1fr] cursor-pointer transition-shadow hover:shadow-lg drop-shadow-[0_0_4px_white]">
         <div className="flex items-center justify-center">
           <Image
             src={certificate.image}
@@ -171,13 +171,13 @@ const CertificateSection = () => {
       id: 15,
       name: "Shield Up Cybersecurity Job Simulation Certificate",
       image: "/images/forage.png",
-      issued: "coursera",
+      issued: "forage",
       link: "https://drive.google.com/file/d/1LwglbaQ9tfJQZFKW67-rOMwpRzPsRSmE/view?usp=sharing",
     },
     {
       id: 16,
       name: "Introduction to Network Analysis",
-      image: "/images/cyber.png",
+      image: "/images/blueteam.png",
       issued: "blue team",
       link: "https://drive.google.com/file/d/1ZxeOxT9xvNNqOEn4sfLGfSTSdja6kfsO/view?usp=sharing",
     },
