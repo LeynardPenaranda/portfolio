@@ -19,6 +19,8 @@ const Navbar = ({ flex = "flex-row" }: { flex: string }) => {
       <Link
         href="https://drive.google.com/file/d/1nF375Q3SW_tMqSjcSK6FH9homOwA3Y43/view?usp=sharing"
         className="flex items-center"
+        target="_blank"
+        rel="noopener noreferrer"
       >
         <FileUser className="h-3 w-3" />
         Resume

@@ -56,7 +56,13 @@ const CertificateCard = ({
           </CardHeader>
           <CardContent>
             <Button asChild className="mt-5">
-              <Link href={certificate.link}>View Cert</Link>
+              <Link
+                href={certificate.link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View Cert
+              </Link>
             </Button>
           </CardContent>
         </div>
