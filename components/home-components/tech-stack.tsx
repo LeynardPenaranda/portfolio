@@ -63,7 +63,7 @@ const TechStack = () => {
             >
               {stacks.map((stack) => (
                 <div
-                  className="relative w-12 lg:w-32 h-12 lg:h-32 mr-8 md:mr-10 lg:mr-30"
+                  className="relative w-12 sm:w-15 md:w-20 lg:w-27  h-12 sm:h-15 md:h-20 lg:h-27 mr-10 md:mr-18 lg:mr-30"
                   key={stack.src}
                 >
                   <Image
@@ -92,7 +92,7 @@ const TechStack = () => {
             >
               {stacks.map((stack) => (
                 <div
-                  className="relative w-12 lg:w-32 h-12 lg:h-32 mr-8 md:mr-10 lg:mr-30"
+                  className="relative w-12 sm:w-15 md:w-20 lg:w-27  h-12 sm:h-15 md:h-20 lg:h-27 mr-10 md:mr-18 lg:mr-30"
                   key={stack.src}
                 >
                   <Image
