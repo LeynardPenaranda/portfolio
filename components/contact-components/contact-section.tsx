@@ -54,7 +54,7 @@ const ContactSection = () => {
                 <CardTitle>LinkedIn</CardTitle>
                 <CardDescription>
                   <Link
-                    href="www.linkedin.com/in/leynard-penaranda-40ab95337"
+                    href="https://www.linkedin.com/in/leynard-penaranda-40ab95337/"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
