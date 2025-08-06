@@ -34,10 +34,18 @@ const HomeComponent = () => {
             </p>
             <div className="flex w-full items-center justify-center mt-4">
               <div className="flex items-center gap-5">
-                <Link href="https://www.linkedin.com/in/leynard-penaranda-40ab95337/">
+                <Link
+                  href="https://www.linkedin.com/in/leynard-penaranda-40ab95337/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <Linkedin />
                 </Link>
-                <Link href="https://github.com/LeynardPenaranda">
+                <Link
+                  href="https://github.com/LeynardPenaranda"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <Github />
                 </Link>
                 <Link href="#contact">
