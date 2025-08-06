@@ -29,72 +29,83 @@ const stacks = [
 ];
 const TechStack = () => {
   return (
-    <div className="flex gap-4 flex-col md:flex-col  items-center ">
-      <div className="flex gap-5">
+    <div className="flex gap-4 flex-col items-center w-full">
+      <div className="flex flex-wrap gap-2 justify-center">
         {stacks.map((stack) => (
           <Image
             key={stack.src}
             src={stack.src}
             alt="images"
-            width={50}
-            height={50}
-            className="drop-shadow-[0_0_4px_white]"
+            width={30}
+            height={30}
+            className="drop-shadow-[0_0_4px_white] mx-2"
           />
         ))}
       </div>
+
       <h2 className="text-2xl font-bold">Tech Stack</h2>
-      <div className="container Blurred">
-        <div className="flex gap-5 md:gap-0">
-          <motion.div
-            initial={{
-              x: 0,
-            }}
-            animate={{
-              x: "-100%",
-            }}
-            transition={{
-              duration: 30,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-            className="flex flex-shrink-0 space-x-15 md:w-[90%]"
-          >
-            {stacks.map((stack) => (
-              <Image
-                key={stack.src}
-                src={stack.src}
-                alt="images"
-                width={110}
-                height={110}
-                className="drop-shadow-[0_0_4px_white]"
-              />
-            ))}
-          </motion.div>
-          <motion.div
-            initial={{
-              x: 0,
-            }}
-            animate={{
-              x: "-100%",
-            }}
-            transition={{
-              duration: 30,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-            className="flex flex-shrink-0 space-x-15 md:w-[90%]"
-          >
-            {stacks.map((stack) => (
-              <Image
-                key={stack.src}
-                src={stack.src}
-                alt="images"
-                width={110}
-                height={110}
-                className="drop-shadow-[0_0_4px_white]"
-              />
-            ))}
-          </motion.div>
+      <div className="relative w-full h-[8rem]">
+        <div className="Blurred w-full absolute">
+          <div className="flex">
+            <motion.div
+              initial={{
+                x: 0,
+              }}
+              animate={{
+                x: "-100%",
+              }}
+              transition={{
+                duration: 15,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+              className="flex flex-shrink-0"
+            >
+              {stacks.map((stack) => (
+                <div
+                  className="relative w-12 lg:w-32 h-12 lg:h-32 mr-15 md:mr-30"
+                  key={stack.src}
+                >
+                  <Image
+                    src={stack.src}
+                    alt="images"
+                    fill
+                    quality={100}
+                    className="object-contain drop-shadow-[0_0_4px_white]"
+                  />
+                </div>
+              ))}
+            </motion.div>
+            <motion.div
+              initial={{
+                x: 0,
+              }}
+              animate={{
+                x: "-100%",
+              }}
+              transition={{
+                duration: 15,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+              className="flex flex-shrink-0"
+            >
+              {stacks.map((stack) => (
+                <div
+                  className="relative w-12 lg:w-32 h-12 lg:h-32 mr-15 md:mr-30"
+                  key={stack.src}
+                >
+                  <Image
+                    src={stack.src}
+                    alt="images"
+                    fill
+                    quality={100}
+                    className="object-contain drop-shadow-[0_0_4px_white]"
+                  />
+                </div>
+              ))}
+            </motion.div>
+          </div>
         </div>
       </div>
     </div>
