@@ -2,6 +2,7 @@
 
 import { useTheme } from "next-themes";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const Logo = () => {
@@ -17,19 +18,23 @@ const Logo = () => {
   return (
     <div>
       {resolvedTheme === "light" ? (
-        <Image
-          src="/images/lightLogo.png"
-          alt="LP logo"
-          width={50}
-          height={50}
-        />
+        <Link href="#home">
+          <Image
+            src="/images/lightLogo.png"
+            alt="LP logo"
+            width={50}
+            height={50}
+          />
+        </Link>
       ) : (
-        <Image
-          src="/images/darkLogo.png"
-          alt="LP logo"
-          width={50}
-          height={50}
-        />
+        <Link href="#home">
+          <Image
+            src="/images/darkLogo.png"
+            alt="LP logo"
+            width={50}
+            height={50}
+          />
+        </Link>
       )}
     </div>
   );

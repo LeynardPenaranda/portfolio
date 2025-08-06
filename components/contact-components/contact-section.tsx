@@ -23,7 +23,11 @@ const ContactSection = () => {
               <CardHeader className="w-full">
                 <CardTitle>Location</CardTitle>
                 <CardDescription>
-                  <Link href="https://www.google.com/maps/@11.7907012,124.8652568,16z?authuser=0&entry=ttu&g_ep=EgoyMDI1MDcyNy4wIKXMDSoASAFQAw%3D%3D">
+                  <Link
+                    href="https://www.google.com/maps/@11.7907012,124.8652568,16z?authuser=0&entry=ttu&g_ep=EgoyMDI1MDcyNy4wIKXMDSoASAFQAw%3D%3D"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     Catbalogan City, Samar, Philippines
                   </Link>
                 </CardDescription>
@@ -49,7 +53,11 @@ const ContactSection = () => {
               <CardHeader className="w-full">
                 <CardTitle>LinkedIn</CardTitle>
                 <CardDescription>
-                  <Link href="https://www.linkedin.com/in/leynard-pe%C3%B1aranda-40ab95337/">
+                  <Link
+                    href="www.linkedin.com/in/leynard-penaranda-40ab95337"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     Leynard Penaranda
                   </Link>
                 </CardDescription>
@@ -63,7 +71,11 @@ const ContactSection = () => {
               <CardHeader className="w-full">
                 <CardTitle>GitHub</CardTitle>
                 <CardDescription>
-                  <Link href="https://github.com/LeynardPenaranda">
+                  <Link
+                    href="https://github.com/LeynardPenaranda"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     Leynard Penaranda
                   </Link>
                 </CardDescription>

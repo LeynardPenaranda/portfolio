@@ -72,7 +72,11 @@ const ProjectCard = () => {
               <CardTitle>{project.name}</CardTitle>
               <CardDescription>{project.description}</CardDescription>
               <Button asChild>
-                <Link href={project.link}>
+                <Link
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <Radio /> Visit Live Project
                 </Link>
               </Button>
