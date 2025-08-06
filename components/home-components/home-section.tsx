@@ -57,8 +57,11 @@ const HomeComponent = () => {
           <ProfileImage />
         </div>
       </motion.section>
-      <div className="w-full mt-10 md:mt-0 flex items-start justify-center">
-        <TechStack />
+      <div className="w-full mt-10 md:mt-0 flex items-start justify-center  ">
+        {/* <TechStack /> */}
+        <div className="container mx-auto overflow-x-hidden">
+          <TechStack />
+        </div>
       </div>
     </>
   );

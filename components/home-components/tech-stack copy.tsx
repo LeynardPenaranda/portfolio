@@ -30,21 +30,9 @@ const stacks = [
 const TechStack = () => {
   return (
     <div className="flex gap-4 flex-col md:flex-col  items-center ">
-      <div className="flex gap-5">
-        {stacks.map((stack) => (
-          <Image
-            key={stack.src}
-            src={stack.src}
-            alt="images"
-            width={50}
-            height={50}
-            className="drop-shadow-[0_0_4px_white]"
-          />
-        ))}
-      </div>
-      <h2 className="text-2xl font-bold">Tech Stack</h2>
+      <h2 className="text-2xl">Tech Stack</h2>
       <div className="container Blurred">
-        <div className="flex gap-5 md:gap-0">
+        <div className="flex gap-20">
           <motion.div
             initial={{
               x: 0,
@@ -53,11 +41,11 @@ const TechStack = () => {
               x: "-100%",
             }}
             transition={{
-              duration: 30,
+              duration: 60,
               repeat: Infinity,
               ease: "linear",
             }}
-            className="flex flex-shrink-0 space-x-15 md:w-[90%]"
+            className="flex flex-shrink-0 space-x-15"
           >
             {stacks.map((stack) => (
               <Image
@@ -78,11 +66,11 @@ const TechStack = () => {
               x: "-100%",
             }}
             transition={{
-              duration: 30,
+              duration: 60,
               repeat: Infinity,
               ease: "linear",
             }}
-            className="flex flex-shrink-0 space-x-15 md:w-[90%]"
+            className="flex flex-shrink-0 space-x-15"
           >
             {stacks.map((stack) => (
               <Image
