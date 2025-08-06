@@ -44,9 +44,9 @@ const TechStack = () => {
       </div>
 
       <h2 className="text-2xl font-bold">Tech Stack</h2>
-      <div className="relative w-full h-[8rem]">
-        <div className="Blurred w-full absolute">
-          <div className="flex">
+      <div className="relative w-full h-[10rem]">
+        <div className="Blurred w-full absolute top-1">
+          <div className="flex h-[9rem]">
             <motion.div
               initial={{
                 x: 0,
@@ -63,7 +63,7 @@ const TechStack = () => {
             >
               {stacks.map((stack) => (
                 <div
-                  className="relative w-12 lg:w-32 h-12 lg:h-32 mr-15 md:mr-30"
+                  className="relative w-12 lg:w-32 h-12 lg:h-32 mr-8 md:mr-10 lg:mr-30"
                   key={stack.src}
                 >
                   <Image
@@ -92,7 +92,7 @@ const TechStack = () => {
             >
               {stacks.map((stack) => (
                 <div
-                  className="relative w-12 lg:w-32 h-12 lg:h-32 mr-15 md:mr-30"
+                  className="relative w-12 lg:w-32 h-12 lg:h-32 mr-8 md:mr-10 lg:mr-30"
                   key={stack.src}
                 >
                   <Image
