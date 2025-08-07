@@ -8,7 +8,7 @@ const Header = () => {
     <header className="w-full bg-background flex items-center justify-around h-[3.9rem] border-b border-gray-300">
       <Logo />
       <div className="flex items-center justify-center gap-3">
-        <div className="flex items-center justify-center gap-5">
+        <div className="flex items-center justify-center gap-5 ">
           <ModeToggle />
           <div className="md:hidden">
             <HeaderDrawer />

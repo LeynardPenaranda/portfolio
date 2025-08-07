@@ -55,7 +55,7 @@ const TechStack = () => {
                 x: "-100%",
               }}
               transition={{
-                duration: 15,
+                duration: 40,
                 repeat: Infinity,
                 ease: "linear",
               }}
@@ -84,7 +84,7 @@ const TechStack = () => {
                 x: "-100%",
               }}
               transition={{
-                duration: 15,
+                duration: 40,
                 repeat: Infinity,
                 ease: "linear",
               }}
