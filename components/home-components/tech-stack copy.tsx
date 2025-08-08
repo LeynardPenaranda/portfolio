@@ -29,60 +29,83 @@ const stacks = [
 ];
 const TechStack = () => {
   return (
-    <div className="flex gap-4 flex-col md:flex-col  items-center ">
-      <h2 className="text-2xl">Tech Stack</h2>
-      <div className="container Blurred">
-        <div className="flex gap-20">
-          <motion.div
-            initial={{
-              x: 0,
-            }}
-            animate={{
-              x: "-100%",
-            }}
-            transition={{
-              duration: 60,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-            className="flex flex-shrink-0 space-x-15"
-          >
-            {stacks.map((stack) => (
-              <Image
-                key={stack.src}
-                src={stack.src}
-                alt="images"
-                width={110}
-                height={110}
-                className="drop-shadow-[0_0_4px_white]"
-              />
-            ))}
-          </motion.div>
-          <motion.div
-            initial={{
-              x: 0,
-            }}
-            animate={{
-              x: "-100%",
-            }}
-            transition={{
-              duration: 60,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-            className="flex flex-shrink-0 space-x-15"
-          >
-            {stacks.map((stack) => (
-              <Image
-                key={stack.src}
-                src={stack.src}
-                alt="images"
-                width={110}
-                height={110}
-                className="drop-shadow-[0_0_4px_white]"
-              />
-            ))}
-          </motion.div>
+    <div className="flex gap-4 flex-col items-center w-full">
+      <div className="flex flex-wrap gap-2 justify-center">
+        {stacks.map((stack) => (
+          <Image
+            key={stack.src}
+            src={stack.src}
+            alt="images"
+            width={30}
+            height={30}
+            className="drop-shadow-[0_0_4px_white] mx-2"
+          />
+        ))}
+      </div>
+
+      <h2 className="text-2xl font-bold">Tech Stack</h2>
+      <div className="relative w-full h-[10rem]">
+        <div className="Blurred w-full absolute top-1">
+          <div className="flex h-[9rem]">
+            <motion.div
+              initial={{
+                x: 0,
+              }}
+              animate={{
+                x: "-100%",
+              }}
+              transition={{
+                duration: 40,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+              className="flex flex-shrink-0"
+            >
+              {stacks.map((stack) => (
+                <div
+                  className="relative w-12 sm:w-15 md:w-20 lg:w-27  h-12 sm:h-15 md:h-20 lg:h-27 mr-10 md:mr-18 lg:mr-30"
+                  key={stack.src}
+                >
+                  <Image
+                    src={stack.src}
+                    alt="images"
+                    fill
+                    quality={100}
+                    className="object-contain drop-shadow-[0_0_4px_white]"
+                  />
+                </div>
+              ))}
+            </motion.div>
+            <motion.div
+              initial={{
+                x: 0,
+              }}
+              animate={{
+                x: "-100%",
+              }}
+              transition={{
+                duration: 40,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+              className="flex flex-shrink-0"
+            >
+              {stacks.map((stack) => (
+                <div
+                  className="relative w-12 sm:w-15 md:w-20 lg:w-27  h-12 sm:h-15 md:h-20 lg:h-27 mr-10 md:mr-18 lg:mr-30"
+                  key={stack.src}
+                >
+                  <Image
+                    src={stack.src}
+                    alt="images"
+                    fill
+                    quality={100}
+                    className="object-contain drop-shadow-[0_0_4px_white]"
+                  />
+                </div>
+              ))}
+            </motion.div>
+          </div>
         </div>
       </div>
     </div>

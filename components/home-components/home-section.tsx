@@ -4,10 +4,15 @@ import { Github, Linkedin, Mails } from "lucide-react";
 import DescriptionProfile from "./home-description";
 import ProfileImage from "./profile-images";
 import TechStack from "./tech-stack";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import Link from "next/link";
+import { useRef } from "react";
 
 const HomeComponent = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, {
+    margin: "-100px",
+  });
   return (
     <>
       <motion.section
@@ -26,12 +31,18 @@ const HomeComponent = () => {
         <div className=" flex-col-reverse md:flex-row flex gap-5  items-center justify-center h-[50rem]">
           <div className="flex flex-col w-full md:w-[50%]">
             <DescriptionProfile />
-            <p className="w-full mt-10 text-center">
-              Hi, I’m Leynard Peñaranda — a junior developer building modern,
-              responsive web apps with <b>React</b>, <b>Next.js</b>, and{" "}
+            <motion.p
+              ref={ref}
+              initial={{ opacity: 0, y: 40 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="w-full mt-10 text-center"
+            >
+              Hi, I’m <b>Leynard Peñaranda</b> — a junior developer building
+              modern, responsive web apps with <b>React</b>, <b>Next.js</b>, and{" "}
               <b>Tailwind CSS</b>. I also bring a solid foundation in
               cybersecurity to ensure secure and user-friendly experiences.
-            </p>
+            </motion.p>
             <div className="flex w-full items-center justify-center mt-4">
               <div className="flex items-center gap-5">
                 <Link
@@ -54,7 +65,9 @@ const HomeComponent = () => {
               </div>
             </div>
           </div>
-          <ProfileImage />
+          <div>
+            <ProfileImage />
+          </div>
         </div>
       </motion.section>
       <div className="w-full overflow-x-hidden">
