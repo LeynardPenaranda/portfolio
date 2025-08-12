@@ -18,6 +18,7 @@ const projectsArray = [
       "A modern pizza ordering app with cart management and dynamic menu features built using React and state management tools.",
     badges: [
       "React",
+      "Vite",
       "JavaScript",
       "CSS Modules",
       "Redux",
@@ -89,6 +90,8 @@ const projectsArray = [
       "A static, demo-only e-commerce site built with React — showcasing modern product listings, a functional cart interface, and smooth navigation. Checkout is non-functional and for display purposes only.",
     badges: [
       "React",
+      "Vite",
+      "TypeScript",
       "Redux",
       "Tailwind CSS",
       "Static Site",
