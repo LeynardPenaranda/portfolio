@@ -20,7 +20,7 @@ const projectsArray = [
       "React",
       "Vite",
       "JavaScript",
-      "CSS Modules",
+      "Tailwind CSS",
       "Redux",
       "Rest API",
       "React Router",
@@ -29,7 +29,7 @@ const projectsArray = [
   {
     id: 2,
     name: "The Wild Oasis Employee",
-    status: "active",
+    status: "inactive",
     image: "/images/wildOasis.png",
     link: "https://leynardpenaranda-the-wild-oasis.netlify.app/login",
     codeLink: "https://github.com/LeynardPenaranda/the-wild-oasis",
@@ -46,7 +46,7 @@ const projectsArray = [
   {
     id: 3,
     name: "The Wild Oasis Website Guest",
-    status: "active",
+    status: "inactive",
     image: "/images/cabin-website.png",
     link: "https://the-wild-oasis-website-leynardpenar.vercel.app/",
     codeLink: "https://github.com/LeynardPenaranda/the-wild-oasis-website",
@@ -127,10 +127,20 @@ const ProjectCard = () => {
                 />
               </div>
 
-              <Badge variant="success" className="whitespace-nowrap">
+              <Badge
+                variant={
+                  project.status === "active" ? "success" : "destructive"
+                }
+                className="whitespace-nowrap"
+              >
                 {project.status}
               </Badge>
-
+              {project.status === "inactive" && (
+                <CardDescription className="break-words">
+                  This project is currently inactive. due to supabase paused my
+                  project.
+                </CardDescription>
+              )}
               <CardTitle className="break-words">{project.name}</CardTitle>
 
               <CardDescription className="break-words">
