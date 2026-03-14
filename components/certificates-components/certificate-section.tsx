@@ -1,5 +1,5 @@
 "use client";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import {
   Card,
@@ -12,13 +12,21 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import Link from "next/link";
 
+interface Certificate {
+  id: number;
+  name: string;
+  image: string;
+  issued: string;
+  link: string;
+}
+
 const CertificateCard = ({
   certificate,
   index,
   hoveredIndex,
   setHoveredIndex,
 }: {
-  certificate: any;
+  certificate: Certificate;
   index: number;
   hoveredIndex: number | null;
   setHoveredIndex: (index: number | null) => void;
@@ -237,15 +245,17 @@ const CertificateSection = () => {
       </div>
 
       <div className="w-full md:w-[70%] h-[45rem] flex flex-col gap-5 overflow-y-auto mt-10 md:pl-20">
-        {cert.map((certificate, index) => (
-          <CertificateCard
-            key={certificate.id}
-            certificate={certificate}
-            index={index}
-            hoveredIndex={hoveredIndex}
-            setHoveredIndex={setHoveredIndex}
-          />
-        ))}
+        <AnimatePresence>
+          {cert.map((certificate, index) => (
+            <CertificateCard
+              key={certificate.id}
+              certificate={certificate}
+              index={index}
+              hoveredIndex={hoveredIndex}
+              setHoveredIndex={setHoveredIndex}
+            />
+          ))}
+        </AnimatePresence>
       </div>
     </motion.section>
   );

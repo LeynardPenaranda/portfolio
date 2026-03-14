@@ -4,7 +4,7 @@ import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { Code, Radio, Star } from "lucide-react";
+import { Code, Radio } from "lucide-react";
 import { motion } from "framer-motion";
 
 const projectsArray = [
