@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 const DescriptionProfile = () => {
   return (
     <h1 className=" font-bold text-4xl text-center px-2">
-      Junior Front-End React Developer{" "}
+      Junior Data Engineering Intern
       <motion.span
         animate={{ rotate: [0, 20, -10, 20, 0] }}
         transition={{

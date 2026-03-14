@@ -7,6 +7,7 @@ import TechStack from "./tech-stack";
 import { motion, useInView } from "framer-motion";
 import Link from "next/link";
 import { useRef } from "react";
+import DataTechStack from "./data-tech-stack";
 
 const HomeComponent = () => {
   const ref = useRef(null);
@@ -38,10 +39,13 @@ const HomeComponent = () => {
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="w-full mt-10 text-center"
             >
-              Hi, I’m <b>Leynard Peñaranda</b> — a junior developer building
-              modern, responsive web apps with <b>React</b>, <b>Next.js</b>, and{" "}
-              <b>Tailwind CSS</b>. I also bring a solid foundation in
-              cybersecurity to ensure secure and user-friendly experiences.
+              Hi, I’m <b>Leynard Peñaranda</b>, a junior developer pursuing a{" "}
+              <b>Bachelor of Science in Information Systems (BSIS)</b>. I’m
+              seeking internships in <b>data engineering</b> to apply my
+              experience with <b>Hadoop</b>, <b>Hive</b>, <b>Spark</b>,{" "}
+              <b>Kafka</b>, and <b>SQL</b>. I also build responsive web apps
+              using <b>React</b>, <b>Next.js</b>, and <b>Tailwind CSS</b>, with
+              a strong foundation in <b>cybersecurity</b>.
             </motion.p>
             <div className="flex w-full items-center justify-center mt-4">
               <div className="flex items-center gap-5">
@@ -70,6 +74,9 @@ const HomeComponent = () => {
           </div>
         </div>
       </motion.section>
+      <div className="w-full overflow-x-hidden">
+        <DataTechStack />
+      </div>
       <div className="w-full overflow-x-hidden">
         <TechStack />
       </div>

@@ -1,9 +1,10 @@
+"use client";
 import Image from "next/image";
 import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { Code, Radio } from "lucide-react";
+import { Code, Radio, Star } from "lucide-react";
 import { motion } from "framer-motion";
 
 const projectsArray = [
@@ -25,6 +26,7 @@ const projectsArray = [
       "Rest API",
       "React Router",
     ],
+    featured: false,
   },
   {
     id: 2,
@@ -42,6 +44,7 @@ const projectsArray = [
       "Rest API",
       "Authentication",
     ],
+    featured: false,
   },
   {
     id: 3,
@@ -59,6 +62,7 @@ const projectsArray = [
       "Rest API",
       "Responsive Design",
     ],
+    featured: false,
   },
   {
     id: 4,
@@ -77,6 +81,7 @@ const projectsArray = [
       "Prisma",
       "Authentication",
     ],
+    featured: true,
   },
   {
     id: 5,
@@ -98,6 +103,7 @@ const projectsArray = [
       "React Router",
       "Rest API",
     ],
+    featured: true,
   },
 ];
 
@@ -113,17 +119,26 @@ const ProjectCard = () => {
           }}
           whileTap={{ scale: 0.98 }}
           transition={{ duration: 0.3 }}
-          className="bg-white dark:bg-zinc-800 rounded-xl cursor-pointer w-[90%] md:w-[100%]"
+          className={`bg-white dark:bg-zinc-800 rounded-xl cursor-pointer w-[90%] sm:w-[350px] md:w-[380px] lg:w-[350px] xl:w-[350px] h-[560px] overflow-hidden relative ${
+            project.featured
+              ? "border-4 border-teal-500 shadow-lg shadow-teal-500"
+              : ""
+          }`}
         >
           <Card className="w-full h-full drop-shadow-[0_0_4px_white] overflow-hidden">
             <CardHeader className="space-y-3">
+              {project.featured && (
+                <div className="absolute top-0 right-20 w-[50%] p-1 bg-teal-500 text-white text-center text-sm font-semibold rounded-b-xl">
+                  Featured Project
+                </div>
+              )}
               <div className="border border-gray-300 flex items-center justify-center overflow-hidden">
                 <Image
                   src={project.image}
                   alt={project.name}
                   width={400}
-                  height={400}
-                  className="w-full h-auto object-contain max-h-60"
+                  height={300}
+                  className="w-full h-auto object-cover"
                 />
               </div>
 
