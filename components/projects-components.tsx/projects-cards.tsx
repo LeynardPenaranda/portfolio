@@ -4,12 +4,58 @@ import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { Code, Radio } from "lucide-react";
+import { AlertCircle, Code, Radio } from "lucide-react";
 import { motion } from "framer-motion";
+import BadgeCarousel from "../BadgeCarousel";
 
 const projectsArray = [
   {
+    id: 101,
+    name: "Confluent Kafka Hands On",
+    status: "active",
+    image: "/images/confluent-kafka.png",
+    link: "",
+    codeLink: "https://github.com/LeynardPenaranda/confluent-kafka-hands-on",
+    description:
+      "Welcome to the Confluent Kafka Hands-On repository! This project offers a comprehensive guide on working with Confluent Kafka, focusing on the integration with Python to perform tasks like topic creation, producer configuration, and sending messages into Kafka topics. You’ll gain hands-on experience in setting up Kafka clusters, creating topics in Confluent Cloud, and working with Kafka messages using Python and the `confluent-kafka` library.\n\nIn this project, you'll learn the following:\n\n📌 How to create and manage topics in Confluent Cloud\n🔑 Setting up a Kafka client and obtaining connection credentials\n🧾 Preparing and converting source data (CSV to JSON)\n🧑‍💻 Initializing a Kafka producer and sending messages\n📤 Understanding the message flow from local data to Confluent Cloud\n🔄 Sending test messages manually before automating the process\n\nAdditionally, I cover critical concepts like connecting external applications to Confluent Cloud, ensuring secure API key handling, and sending messages in the correct format. By following this hands-on project, you'll get practical experience with Confluent Kafka, which is crucial for building real-time streaming data pipelines in a cloud environment.",
+    badges: ["Confluent", "Google Colab", "Python", "Apache kafka"],
+    featured: true,
+  },
+  {
+    id: 100,
+    name: "Big Data Hive Practical",
+    status: "active",
+    image: "/images/hive-project.png",
+    link: "",
+    codeLink: "https://github.com/LeynardPenaranda/big-data-hive-practical",
+    description:
+      "Welcome to the Big Data Hive Practical repository! In this project, I demonstrate how to use Apache Hive for big data analysis and querying within a cloud environment, specifically utilizing GCP Dataproc. You will learn to set up Hive, open the Hive Command Line Interface (CLI) in Dataproc, and perform tasks such as creating databases and tables. Additionally, I guide you through connecting to Hive using Beeline CLI via JDBC, running queries, and performing CRUD operations.\n\nThis project also covers key Hive concepts such as managing data in the Hive Metastore (using MySQL), performing CRUD operations, and understanding the application type for Hive environments. By working through this practical project, you will gain hands-on experience in using Hive for large-scale data analysis, offering a valuable skill set for data engineers and analysts working with big data technologies like Hadoop and GCP Dataproc.",
+    badges: ["GCP Dataproc", "Hadoop HDFS", "Olist Dataset", "Apache Hive"],
+    featured: true,
+  },
+  {
     id: 1,
+    name: "Big Data Engineering Real-World Project: E-commerce Dataset",
+    status: "active",
+    image: "/images/big-data-engineering.png",
+    link: "",
+    codeLink:
+      "https://github.com/LeynardPenaranda/Big-Data-Engineering-Real-World-Project-Ecommerce-Dataset",
+    description:
+      "Welcome to my Data Engineering portfolio project, where I work with the Brazilian E-Commerce Public Dataset by Olist. This project provides a detailed, step-by-step data engineering workflow, covering the entire process from raw data understanding to distributed ingestion, transformation, optimization, and data serving. Through this project, I demonstrate practical skills in: Data Understanding, Data Ingestion & Exploration, Data Cleaning & Transformation, Data Integration & Aggregation, Process Optimization, and Data Serving.",
+    badges: [
+      "GCP Dataproc",
+      "Apache Spark",
+      "Hadoop HDFS",
+      "Python",
+      "Jupyter Notebook",
+      "Olist Dataset",
+      "Apache Hive",
+    ],
+    featured: true,
+  },
+  {
+    id: 2,
     name: "Fast Fizza Factory",
     status: "active",
     image: "/images/pizza.png",
@@ -29,14 +75,14 @@ const projectsArray = [
     featured: false,
   },
   {
-    id: 2,
+    id: 3,
     name: "The Wild Oasis Employee",
     status: "inactive",
     image: "/images/wildOasis.png",
     link: "https://leynardpenaranda-the-wild-oasis.netlify.app/login",
     codeLink: "https://github.com/LeynardPenaranda/the-wild-oasis",
     description:
-      "A full-featured hotel admin dashboard for managing bookings, guests, and cabins — secured with login and role-based access. Message me to get the credentials.",
+      "A full-featured hotel admin dashboard for managing bookings, guests, and cabins secured with login and role-based access. Message me to get the credentials.",
     badges: [
       "React",
       "Supabase",
@@ -47,7 +93,7 @@ const projectsArray = [
     featured: false,
   },
   {
-    id: 3,
+    id: 4,
     name: "The Wild Oasis Website Guest",
     status: "inactive",
     image: "/images/cabin-website.png",
@@ -65,7 +111,7 @@ const projectsArray = [
     featured: false,
   },
   {
-    id: 4,
+    id: 5,
     name: "The ShopeStore an E-commerce website",
     status: "active",
     image: "/images/shopestore3.png",
@@ -84,7 +130,7 @@ const projectsArray = [
     featured: true,
   },
   {
-    id: 5,
+    id: 6,
     name: "Static E-commerce website",
     status: "active",
     image: "/images/staticEcommerce.png",
@@ -103,13 +149,36 @@ const projectsArray = [
       "React Router",
       "Rest API",
     ],
+    featured: false,
+  },
+  {
+    id: 7,
+    name: "Digital Lost and Found System",
+    status: "active",
+    image: "/images/digital-lost-found.png",
+    link: "https://digital-lost-and-found-system.vercel.app/sign-in",
+    codeLink:
+      "https://github.com/LeynardPenaranda/digital-lost-and-found-system",
+    description:
+      "The Digital Lost and Found System is a real-time platform designed for SSU, allowing users to post and report lost items. With socket.io integration, users can message each other in real time for faster resolution. Please note that Firebase storage is currently disabled in this system.",
+    badges: [
+      "React",
+      "Nextjs",
+      "TypeScript",
+      "Redux",
+      "Tailwind CSS",
+      "Socket.io",
+      "Rest API",
+      "Firebase Storage",
+      "MongoDB",
+    ],
     featured: true,
   },
 ];
 
 const ProjectCard = () => {
   return (
-    <div className="flex items-center justify-center flex-col sm:grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 md:w-[80%] mx-auto gap-5 mb-10">
+    <div className="flex items-center justify-center flex-col sm:grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 md:w-[80%] mx-auto gap-3 mb-10">
       {projectsArray.map((project) => (
         <motion.div
           key={project.id}
@@ -125,8 +194,8 @@ const ProjectCard = () => {
               : ""
           }`}
         >
-          <Card className="w-full h-full drop-shadow-[0_0_4px_white] overflow-hidden">
-            <CardHeader className="space-y-3">
+          <Card className="w-full h-full drop-shadow-[0_0_4px_white] overflow-hidden flex flex-col">
+            <CardHeader className="space-y-3 flex-grow">
               {project.featured && (
                 <div className="absolute top-0 right-20 w-[50%] p-1 bg-teal-500 text-white text-center text-sm font-semibold rounded-b-xl">
                   Featured Project
@@ -141,6 +210,7 @@ const ProjectCard = () => {
                   className="w-full h-auto object-cover"
                 />
               </div>
+              <CardTitle className="break-words">{project.name}</CardTitle>
 
               <Badge
                 variant={
@@ -150,40 +220,43 @@ const ProjectCard = () => {
               >
                 {project.status}
               </Badge>
-              {project.status === "inactive" && (
-                <CardDescription className="break-words">
-                  This project is currently inactive. due to supabase paused my
-                  project.
-                </CardDescription>
-              )}
-              <CardTitle className="break-words">{project.name}</CardTitle>
 
-              <CardDescription className="break-words">
+              {/* Inactive Alert with icon and yellow text */}
+              {project.status === "inactive" && (
+                <div className="flex  text-yellow-500 gap-2">
+                  <AlertCircle size={20} /> {/* Alert icon */}
+                  <CardDescription className="break-words text-yellow-500/50">
+                    This project is currently inactive due to Supabase pausing
+                    the project.
+                  </CardDescription>
+                </div>
+              )}
+
+              {/* Description with overflow scroll */}
+              <CardDescription
+                className="break-words overflow-y-auto max-h-[120px] scrollbar-hide text-[13px]"
+                style={{ WebkitOverflowScrolling: "touch" }}
+              >
                 {project.description}
               </CardDescription>
 
-              <div className="flex flex-wrap gap-2">
-                {project.badges.map((badge) => (
-                  <Badge
-                    key={badge}
-                    variant="secondary"
-                    className="whitespace-nowrap border border-gray-300"
-                  >
-                    {badge}
-                  </Badge>
-                ))}
-              </div>
+              {/*Badge Carousel */}
+              <BadgeCarousel badges={project.badges} direction="left" />
+              <BadgeCarousel badges={project.badges} direction="right" />
+            </CardHeader>
 
-              <div className="flex flex-wrap gap-2 items-center justify-center">
-                <Button asChild className="rounded-none flex-1 min-w-[120px]">
-                  <Link
-                    href={project.codeLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Code /> Code
-                  </Link>
-                </Button>
+            {/* Buttons at the bottom */}
+            <div className="flex flex-wrap gap-1 items-center justify-center mt-auto px-2">
+              <Button asChild className="flex-1 min-w-[120px]">
+                <Link
+                  href={project.codeLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Code /> Code
+                </Link>
+              </Button>
+              {project.link && (
                 <Button asChild className="flex-1 min-w-[150px]">
                   <Link
                     href={project.link}
@@ -193,8 +266,8 @@ const ProjectCard = () => {
                     <Radio /> Visit Live Project
                   </Link>
                 </Button>
-              </div>
-            </CardHeader>
+              )}
+            </div>
           </Card>
         </motion.div>
       ))}
