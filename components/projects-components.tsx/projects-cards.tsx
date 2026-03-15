@@ -10,6 +10,24 @@ import BadgeCarousel from "../BadgeCarousel";
 
 const projectsArray = [
   {
+    id: 102,
+    name: "Data Warehouse and Analytics Project",
+    status: "active",
+    image: "/images/data-warehouse-sql.png",
+    link: "",
+    codeLink: "https://github.com/LeynardPenaranda/sql-datawarehouse-project",
+    description:
+      "Welcome to the Data Warehouse and Analytics Project repository! This project demonstrates a complete data warehousing and analytics solution. From building a data warehouse to generating actionable insights, it covers essential concepts in Data Engineering and Analytics using SQL Server.",
+    badges: [
+      "SQL Server",
+      "Data Engineering",
+      "Data Analytics",
+      "ETL",
+      "Business Intelligence",
+    ],
+    featured: true,
+  },
+  {
     id: 101,
     name: "Confluent Kafka Hands On",
     status: "active",
