@@ -30,7 +30,7 @@ const HomeComponent = () => {
         }}
       >
         <div className=" flex-col-reverse md:flex-row flex gap-5  items-center justify-center h-[50rem]">
-          <div className="flex flex-col w-full md:w-[50%]">
+          <div className="flex flex-col w-full md:w-[50%] px-5">
             <DescriptionProfile />
             <motion.p
               ref={ref}
@@ -41,11 +41,12 @@ const HomeComponent = () => {
             >
               Hi, I’m <b>Leynard Peñaranda</b>, a junior developer pursuing a{" "}
               <b>Bachelor of Science in Information Systems (BSIS)</b>. I’m
-              seeking internships in <b>data engineering</b> to apply my
-              experience with <b>Hadoop</b>, <b>Hive</b>, <b>Spark</b>,{" "}
-              <b>Kafka</b>, and <b>SQL</b>. I also build responsive web apps
-              using <b>React</b>, <b>Next.js</b>, and <b>Tailwind CSS</b>, with
-              a strong foundation in <b>cybersecurity</b>.
+              seeking internships in <b>data engineering</b> to apply my{" "}
+              <b>junior-level experience</b> with <b>Hadoop</b>, <b>Hive</b>,{" "}
+              <b>Spark</b>, <b>Kafka</b>, and <b>SQL</b>. I also have{" "}
+              <b>junior-level experience</b> building responsive web apps using{" "}
+              <b>React</b>, <b>Next.js</b>, and <b>Tailwind CSS</b>, along with
+              a foundation in <b>cybersecurity</b>.
             </motion.p>
             <div className="flex w-full items-center justify-center mt-4">
               <div className="flex items-center gap-5">

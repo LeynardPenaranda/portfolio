@@ -11,6 +11,7 @@ const stacks = [
   { src: "/tech-stack/postgresql-logo.png" },
   { src: "/tech-stack/python-logo.svg" },
   { src: "/tech-stack/apache-hadoop-hdfs-logo.png" },
+  { src: "/tech-stack/docker-logo.png" },
 ];
 
 type StackImageProps = {
