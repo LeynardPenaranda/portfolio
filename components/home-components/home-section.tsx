@@ -18,7 +18,7 @@ const HomeComponent = () => {
     <>
       <motion.section
         id="home"
-        className="w-full  scroll-mt-20"
+        className="w-full pt-24 md:pt-20 scroll-mt-20"
         initial={{
           opacity: 0,
         }}

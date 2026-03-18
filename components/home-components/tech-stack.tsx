@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { memo } from "react";
 
 const stacks = [
@@ -52,18 +51,14 @@ function ScrollingStacksComponent() {
 
   return (
     <div className="relative w-full h-[12rem] overflow-x-hidden">
+      <div className="pointer-events-none absolute left-0 top-0 h-full w-[5vw] bg-gradient-to-r from-white to-transparent z-10" />
+      <div className="pointer-events-none absolute right-0 top-0 h-full w-[5vw] bg-gradient-to-l from-white to-transparent z-10" />
       <div className="w-full absolute top-1">
         <div className="flex h-[11rem]">
           {[...Array(2)].map((_, i) => (
-            <motion.div
-              key={i}
-              initial={{ x: 0 }}
-              animate={{ x: "-100%" }}
-              transition={{ duration: 70, repeat: Infinity, ease: "linear" }}
-              className="flex flex-shrink-0"
-            >
+            <div key={i} className="flex flex-shrink-0 animate-scroll">
               {renderStacks}
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

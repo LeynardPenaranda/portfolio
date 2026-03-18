@@ -3,7 +3,7 @@
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 const ProfileImage = () => {
   const { resolvedTheme } = useTheme();
@@ -26,7 +26,7 @@ const ProfileImage = () => {
       setThemeImage(
         resolvedTheme === "light"
           ? "/images/lightprofile.png"
-          : "/images/darkprofile.png"
+          : "/images/darkprofile.png",
       );
     }, 150); // half of 0.3s animation
 
@@ -44,19 +44,21 @@ const ProfileImage = () => {
   if (!mounted) return null;
 
   return (
-    <div className="w-fit mx-auto" style={{ perspective: 1000 }}>
+    <div
+      className="w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[450px] lg:h-[450px] mx-auto"
+      style={{ perspective: 1000 }}
+    >
       <motion.div
         animate={{ rotateY: flipped ? 180 : 0 }}
         transition={{ duration: 0.3 }}
-        className="rounded-sm"
+        className="w-full h-full rounded-sm"
         style={{ transformStyle: "preserve-3d" }}
       >
         <Image
           src={themeImage}
           alt="leynard Penaranda"
-          width={450}
-          height={450}
-          className="rounded-sm"
+          fill
+          className="rounded-sm object-cover"
         />
       </motion.div>
     </div>
