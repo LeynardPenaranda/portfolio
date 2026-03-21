@@ -77,6 +77,12 @@ function TechStackComponent() {
         ))}
       </div>
 
+      <p className="max-w-2xl px-4 text-center text-sm text-gray-600">
+        I am currently at a junior level with these technologies and have
+        foundational, working familiarity with them through ongoing learning and
+        hands-on practice.
+      </p>
+
       <h2 className="text-2xl font-bold">BIG Data Tech Stack</h2>
 
       <ScrollingStacks />
