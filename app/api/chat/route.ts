@@ -135,16 +135,33 @@ function isQuotaError(message: string) {
 
   return (
     normalizedMessage.includes("rpd") ||
-    normalizedMessage.includes("rate limit") ||
     normalizedMessage.includes("quota") ||
+    normalizedMessage.includes("daily limit") ||
     normalizedMessage.includes("resource has been exhausted") ||
-    normalizedMessage.includes("too many requests")
+    normalizedMessage.includes("free tier")
+  );
+}
+
+function isTemporaryBusyError(message: string) {
+  const normalizedMessage = message.toLowerCase();
+
+  return (
+    normalizedMessage.includes("rate limit") ||
+    normalizedMessage.includes("too many requests") ||
+    normalizedMessage.includes("overloaded") ||
+    normalizedMessage.includes("busy") ||
+    normalizedMessage.includes("temporarily unavailable") ||
+    normalizedMessage.includes("try again later")
   );
 }
 
 function getFriendlyApiError(message: string) {
   if (isQuotaError(message)) {
     return "I've reached the Gemini daily request limit for now. Please try again tomorrow, because I am only using a free tier model for this.";
+  }
+
+  if (isTemporaryBusyError(message)) {
+    return "I'm answering many people right now, so the chat is a bit busy. Please wait a moment and try sending your message again.";
   }
 
   return message;
@@ -247,7 +264,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ reply, fallbackMode: null });
   } catch {
     return NextResponse.json(
-      { error: "Something went wrong while contacting Gemini." },
+      {
+        error:
+          "I'm answering many people right now, so the chat may be temporarily unavailable. Please try again in a moment.",
+      },
       { status: 500 }
     );
   }

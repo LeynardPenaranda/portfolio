@@ -25,6 +25,8 @@ const STARTER_MESSAGE =
   "Hi, I'm Leynard's AI assistant. Ask me about his background, skills, projects, or internship goals.";
 const CHATBOT_PROFILE_IMAGE = "/me/leynardAichatbot.jpg";
 const GEMINI_LOGO_IMAGE = "/me/Google-Gemini-Logo-Transparent.png";
+const ASSISTANT_TYPING_SPEED = 22;
+const PROMPT_TYPING_SPEED = 75;
 const STATIC_FAQ: StaticFaq[] = [
   {
     question: "What are Leynard's skills?",
@@ -162,7 +164,7 @@ function TypewriterText({
   active,
   onComplete,
   onProgress,
-  speed = 14,
+  speed = ASSISTANT_TYPING_SPEED,
 }: {
   text: string;
   active: boolean;
@@ -252,6 +254,14 @@ export default function PortfolioChatbot() {
   }, [isLoading, messages, typingMessageId]);
 
   useEffect(() => {
+    if (!isOpen) return;
+
+    window.requestAnimationFrame(() => {
+      scrollToBottom("auto");
+    });
+  }, [isOpen]);
+
+  useEffect(() => {
     if (isOpen) {
       setShowPromptBubble(false);
       return;
@@ -311,6 +321,9 @@ export default function PortfolioChatbot() {
     setNextId((current) => current + 1);
     setInput("");
     setIsLoading(true);
+    window.requestAnimationFrame(() => {
+      scrollToBottom("smooth");
+    });
 
     try {
       const response = await fetch("/api/chat", {
@@ -383,6 +396,9 @@ export default function PortfolioChatbot() {
     ]);
     setNextId((current) => current + 2);
     setTypingMessageId(assistantMessageId);
+    window.requestAnimationFrame(() => {
+      scrollToBottom("smooth");
+    });
   }
 
   function handleKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
@@ -506,6 +522,7 @@ export default function PortfolioChatbot() {
                       <TypewriterText
                         text={message.content}
                         active
+                        speed={ASSISTANT_TYPING_SPEED}
                         onProgress={() => {
                           if (isNearBottom()) {
                             scrollToBottom("auto");
@@ -618,7 +635,7 @@ export default function PortfolioChatbot() {
               key={promptCycleKey}
               text="Ask Leynard AI"
               active={showPromptBubble}
-              speed={65}
+              speed={PROMPT_TYPING_SPEED}
             />
           </div>
           <button
