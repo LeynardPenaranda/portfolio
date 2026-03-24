@@ -6,6 +6,7 @@ import Header from "@/components/header/header";
 import Footer from "@/components/footer/footer";
 import { Poppins } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import PortfolioChatbot from "@/components/chatbot/portfolio-chatbot";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -43,6 +44,7 @@ export default function RootLayout({
 
             <Footer />
           </div>
+          <PortfolioChatbot />
           <Analytics />
         </ThemeProvider>
       </body>
