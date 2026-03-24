@@ -52,8 +52,8 @@ function ScrollingStacksComponent() {
 
   return (
     <div className="relative w-full h-[12rem] overflow-x-hidden">
-      <div className="pointer-events-none absolute left-0 top-0 h-full w-[5vw] bg-gradient-to-r from-white to-transparent z-10" />
-      <div className="pointer-events-none absolute right-0 top-0 h-full w-[5vw] bg-gradient-to-l from-white to-transparent z-10" />
+      <div className="pointer-events-none absolute left-0 top-0 h-full w-[5vw] bg-gradient-to-r from-background to-transparent z-10" />
+      <div className="pointer-events-none absolute right-0 top-0 h-full w-[5vw] bg-gradient-to-l from-background to-transparent z-10" />
       <div className="w-full absolute top-1">
         <div className="flex h-[11rem]">
           {[...Array(3)].map((_, i) => (

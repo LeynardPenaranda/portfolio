@@ -9,7 +9,7 @@ const ProjectSection = () => {
     >
       <div className="w-full flex flex-col items-center justify-center">
         <div className="w-full">
-          <h1 className="text-center text-5xl font-bold mb-10 px-2 sticky top-0 z-50 bg-background py-10">
+          <h1 className="text-center text-5xl font-bold mb-10 px-2 py-10">
             PROJECTS
           </h1>
           <p className="mx-auto mb-8 max-w-3xl px-4 text-center text-sm leading-7 text-muted-foreground md:text-base">

@@ -44,7 +44,7 @@ const CertificateCard = ({
       transition={{ duration: 0.3 }}
       onMouseEnter={() => setHoveredIndex(index)}
       onMouseLeave={() => setHoveredIndex(null)}
-      className="w-[90%] md:w-[85%] mx-auto mt-5 mb-6"
+      className="w-[90%] md:w-[85%] mx-auto mt-5 mb-6 snap-start"
     >
       <Card className="grid grid-rows-2 sm:grid-rows-1 md:grid-cols-1 lg:grid-cols-[10rem_1fr] cursor-pointer transition-shadow hover:shadow-lg drop-shadow-md">
         <div className="flex items-center justify-center">
@@ -244,7 +244,7 @@ const CertificateSection = () => {
         </Card>
       </div>
 
-      <div className="w-full md:w-[70%] h-[45rem] flex flex-col gap-5 overflow-y-auto mt-10 md:pl-20">
+      <div className="certificate-scroll w-full md:w-[70%] h-[45rem] flex flex-col gap-5 overflow-y-auto scroll-smooth snap-y snap-proximity mt-10 md:pl-20">
         <AnimatePresence>
           {cert.map((certificate, index) => (
             <CertificateCard
