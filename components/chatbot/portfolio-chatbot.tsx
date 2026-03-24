@@ -545,7 +545,7 @@ export default function PortfolioChatbot() {
                 <p className="font-semibold">Static mode is active</p>
                 <p className="mt-1 text-xs leading-5 text-sky-800/90 dark:text-sky-100/80">
                   Gemini is temporarily unavailable because the free-tier daily
-                  limit was reached. You can still explore Leynard's profile
+                  limit was reached. You can still explore Leynard&apos;s profile
                   using the question bubbles below.
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2">
