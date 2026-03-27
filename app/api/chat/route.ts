@@ -7,7 +7,7 @@ const SYSTEM_PROMPT = `You are an AI chatbot that represents and speaks ONLY abo
 
 Here is the information about Leynard:
 
-* Full Name: Leynard M. Penaranda
+* Full Name: Leynard M. Peñaranda
 * Location: Catbalogan City, Samar, Philippines
 * University: Samar State University
 * Education: Bachelor of Science in Information Systems (BSIS), currently a 3rd-year student transitioning to 4th year
@@ -174,7 +174,7 @@ export async function POST(request: NextRequest) {
   if (!apiKey) {
     return NextResponse.json(
       { error: "Missing GEMINI_API_KEY on the server." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 
@@ -190,7 +190,7 @@ export async function POST(request: NextRequest) {
     if (!message) {
       return NextResponse.json(
         { error: "Message is required." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -201,7 +201,7 @@ export async function POST(request: NextRequest) {
           item &&
           (item.role === "user" || item.role === "assistant") &&
           typeof item.content === "string" &&
-          item.content.trim()
+          item.content.trim(),
       );
 
     const conversation: ChatMessage[] = [
@@ -248,7 +248,7 @@ export async function POST(request: NextRequest) {
           error: getFriendlyApiError(apiError),
           fallbackMode: isQuotaError(apiError) ? "static" : null,
         },
-        { status: response.status }
+        { status: response.status },
       );
     }
 
@@ -257,7 +257,7 @@ export async function POST(request: NextRequest) {
     if (!reply) {
       return NextResponse.json(
         { error: "Gemini did not return a text response." },
-        { status: 502 }
+        { status: 502 },
       );
     }
 
@@ -268,7 +268,7 @@ export async function POST(request: NextRequest) {
         error:
           "I'm answering many people right now, so the chat may be temporarily unavailable. Please try again in a moment.",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

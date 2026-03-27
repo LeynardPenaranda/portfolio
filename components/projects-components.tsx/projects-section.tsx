@@ -19,6 +19,29 @@ const ProjectSection = () => {
             to show the skills I developed while giving proper credit to the
             learning resources that helped shape them.
           </p>
+          <div className="mx-auto mb-10 w-[92%] max-w-4xl px-4">
+            <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+              <div className="border-b border-border px-5 py-4">
+                <h2 className="text-lg font-semibold md:text-xl">
+                  KalikaScan Tutorial
+                </h2>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  A quick walkthrough showing how to use KalikaScan.
+                </p>
+              </div>
+              <div className="aspect-video w-full">
+                <iframe
+                  className="h-full w-full"
+                  src="https://www.youtube.com/embed/IeY4rr_2zDg"
+                  title="KalikaScan tutorial video"
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          </div>
           <ProjectCard />
         </div>
       </div>

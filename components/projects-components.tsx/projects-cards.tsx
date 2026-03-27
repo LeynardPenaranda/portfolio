@@ -1,14 +1,50 @@
 "use client";
+import { useState } from "react";
 import Image from "next/image";
 import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { AlertCircle, Code, Radio } from "lucide-react";
+import { AlertCircle, Code, Download, Lock, Radio, X } from "lucide-react";
 import { motion } from "framer-motion";
 import BadgeCarousel from "../BadgeCarousel";
 
+type Project = {
+  id: number;
+  name: string;
+  status: "active" | "inactive";
+  image: string;
+  link: string;
+  codeLink: string;
+  description: string;
+  badges: string[];
+  featured: boolean;
+  isPrivateRepo?: boolean;
+  installLink?: string;
+};
+
 const projectsArray = [
+  {
+    id: 103,
+    name: "KalikaScan",
+    status: "active",
+    image: "/images/kalikascan-logo.png",
+    link: "",
+    codeLink: "https://github.com/LeynardPenaranda/kalikascan",
+    description:
+      "KalikaScan is a mobile app focused on plant scanning and identification. It uses Plant.id by Kindwise for recognition, Firebase for backend services, Cloudinary for media handling, and a React Native + TypeScript stack for the app experience.",
+    badges: [
+      "React Native",
+      "Firebase",
+      "Plant.id by Kindwise",
+      "Cloudinary",
+      "TypeScript",
+    ],
+    featured: true,
+    isPrivateRepo: true,
+    installLink:
+      "https://drive.google.com/file/d/1uadSYDrOalyl3ggVVieSEzY6p98xXDzZ/view?usp=sharing",
+  },
   {
     id: 102,
     name: "Data Warehouse and Analytics Project",
@@ -192,104 +228,174 @@ const projectsArray = [
     ],
     featured: true,
   },
-];
+ ] satisfies Project[];
 
 const ProjectCard = () => {
+  const [privateRepoProject, setPrivateRepoProject] = useState<Project | null>(
+    null
+  );
+
   return (
-    <div className="flex items-center justify-center flex-col sm:grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 md:w-[80%] mx-auto gap-3 mb-10">
-      {projectsArray.map((project) => (
-        <motion.div
-          key={project.id}
-          whileHover={{
-            scale: 1.05,
-            boxShadow: "0px 8px 20px rgba(0, 0, 0, 0.15)",
-          }}
-          whileTap={{ scale: 0.98 }}
-          transition={{ duration: 0.3 }}
-          className={`bg-white dark:bg-zinc-800 rounded-xl cursor-pointer w-[90%] sm:w-[350px] md:w-[380px] lg:w-[350px] xl:w-[350px] h-[560px] overflow-hidden relative ${
-            project.featured
-              ? "border-4 border-teal-500 shadow-lg shadow-teal-500"
-              : ""
-          }`}
-        >
-          <Card className="w-full h-full drop-shadow-[0_0_4px_white] overflow-hidden flex flex-col">
-            <CardHeader className="space-y-3 flex-grow">
-              {project.featured && (
-                <div className="absolute top-0 right-20 w-[50%] p-1 bg-teal-500 text-white text-center text-sm font-semibold rounded-b-xl">
-                  Featured Project
+    <>
+      <div className="flex items-center justify-center flex-col sm:grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 md:w-[80%] mx-auto gap-3 mb-10">
+        {projectsArray.map((project) => (
+          <motion.div
+            key={project.id}
+            whileHover={{
+              scale: 1.05,
+              boxShadow: "0px 8px 20px rgba(0, 0, 0, 0.15)",
+            }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ duration: 0.3 }}
+            className={`bg-white dark:bg-zinc-800 rounded-xl cursor-pointer w-[90%] sm:w-[350px] md:w-[380px] lg:w-[350px] xl:w-[350px] h-[620px] overflow-hidden relative ${
+              project.featured
+                ? "border-4 border-teal-500 shadow-lg shadow-teal-500"
+                : ""
+            }`}
+          >
+            <Card className="w-full h-full drop-shadow-[0_0_4px_white] overflow-hidden flex flex-col">
+              <CardHeader className="space-y-3 flex-grow">
+                {project.featured && (
+                  <div className="absolute top-0 right-20 w-[50%] p-1 bg-teal-500 text-white text-center text-sm font-semibold rounded-b-xl">
+                    Featured Project
+                  </div>
+                )}
+                <div className="border border-gray-300 flex items-center justify-center overflow-hidden">
+                  <Image
+                    src={project.image}
+                    alt={project.name}
+                    width={400}
+                    height={300}
+                    className="w-full h-auto object-cover"
+                  />
                 </div>
-              )}
-              <div className="border border-gray-300 flex items-center justify-center overflow-hidden">
-                <Image
-                  src={project.image}
-                  alt={project.name}
-                  width={400}
-                  height={300}
-                  className="w-full h-auto object-cover"
-                />
-              </div>
-              <CardTitle className="break-words">{project.name}</CardTitle>
+                <CardTitle className="break-words">{project.name}</CardTitle>
 
-              <Badge
-                variant={
-                  project.status === "active" ? "success" : "destructive"
-                }
-                className="whitespace-nowrap"
-              >
-                {project.status}
-              </Badge>
-
-              {/* Inactive Alert with icon and yellow text */}
-              {project.status === "inactive" && (
-                <div className="flex  text-yellow-500 gap-2">
-                  <AlertCircle size={20} /> {/* Alert icon */}
-                  <CardDescription className="break-words text-yellow-500/50">
-                    This project is currently inactive due to Supabase pausing
-                    the project.
-                  </CardDescription>
-                </div>
-              )}
-
-              {/* Description with overflow scroll */}
-              <CardDescription
-                className="break-words overflow-y-auto max-h-[120px] scrollbar-hide text-[13px]"
-                style={{ WebkitOverflowScrolling: "touch" }}
-              >
-                {project.description}
-              </CardDescription>
-
-              {/*Badge Carousel */}
-              <BadgeCarousel badges={project.badges} direction="left" />
-              <BadgeCarousel badges={project.badges} direction="right" />
-            </CardHeader>
-
-            {/* Buttons at the bottom */}
-            <div className="flex flex-wrap gap-1 items-center justify-center mt-auto px-2">
-              <Button asChild className="flex-1 min-w-[120px]">
-                <Link
-                  href={project.codeLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Badge
+                  variant={
+                    project.status === "active" ? "success" : "destructive"
+                  }
+                  className="whitespace-nowrap"
                 >
-                  <Code /> Code
-                </Link>
+                  {project.status}
+                </Badge>
+
+                {project.status === "inactive" && (
+                  <div className="flex text-yellow-500 gap-2">
+                    <AlertCircle size={20} />
+                    <CardDescription className="break-words text-yellow-500/50">
+                      This project is currently inactive due to Supabase pausing
+                      the project.
+                    </CardDescription>
+                  </div>
+                )}
+
+                <CardDescription
+                  className="break-words overflow-y-auto max-h-[120px] scrollbar-hide text-[13px]"
+                  style={{ WebkitOverflowScrolling: "touch" }}
+                >
+                  {project.description}
+                </CardDescription>
+
+                <BadgeCarousel badges={project.badges} direction="left" />
+                <BadgeCarousel badges={project.badges} direction="right" />
+              </CardHeader>
+
+              <div className="flex flex-wrap gap-1 items-center justify-center mt-auto px-2">
+                {project.isPrivateRepo ? (
+                  <Button
+                    type="button"
+                    className="flex-1 min-w-[120px]"
+                    onClick={() => setPrivateRepoProject(project)}
+                  >
+                    <Lock /> Code Locked
+                  </Button>
+                ) : (
+                  <Button asChild className="flex-1 min-w-[120px]">
+                    <Link
+                      href={project.codeLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Code /> Code
+                    </Link>
+                  </Button>
+                )}
+
+                {project.installLink && (
+                  <Button asChild className="flex-1 min-w-[140px]">
+                    <Link
+                      href={project.installLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Download /> Install App
+                    </Link>
+                  </Button>
+                )}
+
+                {project.link && (
+                  <Button asChild className="flex-1 min-w-[150px]">
+                    <Link
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Radio /> Visit Live Project
+                    </Link>
+                  </Button>
+                )}
+              </div>
+            </Card>
+          </motion.div>
+        ))}
+      </div>
+
+      {privateRepoProject && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
+          <div className="w-full max-w-md rounded-2xl border bg-background p-6 shadow-2xl">
+            <div className="mb-4 flex items-start justify-between gap-3">
+              <div>
+                <h2 className="text-xl font-semibold">Private Repository</h2>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  The GitHub repository for {privateRepoProject.name} is not
+                  public right now, so the source code can&apos;t be viewed.
+                </p>
+              </div>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={() => setPrivateRepoProject(null)}
+                aria-label="Close private repository modal"
+              >
+                <X />
               </Button>
-              {project.link && (
-                <Button asChild className="flex-1 min-w-[150px]">
+            </div>
+
+            <div className="flex flex-wrap justify-end gap-2">
+              {privateRepoProject.installLink && (
+                <Button asChild variant="outline">
                   <Link
-                    href={project.link}
+                    href={privateRepoProject.installLink}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Radio /> Visit Live Project
+                    <Download /> Install App
                   </Link>
                 </Button>
               )}
+              <Button
+                type="button"
+                onClick={() => setPrivateRepoProject(null)}
+              >
+                Close
+              </Button>
             </div>
-          </Card>
-        </motion.div>
-      ))}
-    </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
