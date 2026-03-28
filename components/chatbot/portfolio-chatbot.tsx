@@ -46,25 +46,25 @@ const STATIC_FAQ: StaticFaq[] = [
   {
     question: "Tell me about Leynard's background",
     answer:
-      "**Background**\n- **Full Name**: Leynard M. Peñaranda\n- **Location**: Catbalogan City, Samar, Philippines\n- **University**: Samar State University\n- **Program**: BS in Information Systems\n- **Status**: Currently a 3rd-year student transitioning to 4th year",
+      "**Background**\n- **Full Name**: Leynard M. Peñaranda\n- **Location**: Catbalogan City, Samar, Philippines\n- **University**: Samar State University\n- **Program**: BS in Information Systems\n- **Status**: Currently a 3rd-year student in the 2nd semester, taking final exams, and close to transitioning to 4th year",
   },
 ];
 
-function renderInlineMarkdown(text: string) {
-  const segments = text.split(/(`[^`]+`|\*\*[^*]+\*\*)/g).filter(Boolean);
+function normalizeAssistantMessage(content: string) {
+  return content
+    .replace(/```[\s\S]*?```/g, "")
+    .replace(/`([^`]+)`/g, "$1")
+    .replace(/^#{1,6}\s*/gm, "")
+    .replace(/^\s*[-*]\s+/gm, "")
+    .replace(/^\s*\d+\.\s+/gm, "")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+function renderInlineHighlights(text: string) {
+  const segments = text.split(/(\*\*[^*]+\*\*)/g).filter(Boolean);
 
   return segments.map((segment, index) => {
-    if (segment.startsWith("`") && segment.endsWith("`")) {
-      return (
-        <code
-          key={index}
-          className="rounded-md bg-zinc-950/8 px-1.5 py-0.5 font-mono text-[0.85em] dark:bg-white/10"
-        >
-          {segment.slice(1, -1)}
-        </code>
-      );
-    }
-
     if (segment.startsWith("**") && segment.endsWith("**")) {
       return (
         <strong key={index} className="font-semibold">
@@ -77,81 +77,51 @@ function renderInlineMarkdown(text: string) {
   });
 }
 
-function StructuredMessage({ content }: { content: string }) {
-  const blocks =
-    content.match(/```[\s\S]*?```|(?:[^\n]+\n?)+?(?=\n\s*\n|```|$)/g) ?? [];
+function renderAssistantLine(line: string) {
+  const trimmedLine = line.trim();
+  if (!trimmedLine) return null;
+
+  if (/^\*\*[^*]+\*\*$/.test(trimmedLine)) {
+    return <strong className="font-semibold">{trimmedLine.slice(2, -2)}</strong>;
+  }
+
+  const colonIndex = trimmedLine.indexOf(":");
+  if (colonIndex > 0 && colonIndex <= 60) {
+    const label = trimmedLine.slice(0, colonIndex + 1);
+    const remainder = trimmedLine.slice(colonIndex + 1);
+
+    return (
+      <>
+        <strong className="font-semibold">{label}</strong>
+        {remainder}
+      </>
+    );
+  }
+
+  return renderInlineHighlights(trimmedLine);
+}
+
+function AssistantMessage({ content }: { content: string }) {
+  const normalizedContent = normalizeAssistantMessage(content);
+  const paragraphs = normalizedContent.split(/\n\s*\n/);
 
   return (
     <div className="space-y-3">
-      {blocks.map((block, blockIndex) => {
-        const trimmedBlock = block.trim();
-
-        if (trimmedBlock.startsWith("```") && trimmedBlock.endsWith("```")) {
-          const code = trimmedBlock
-            .replace(/^```[^\n]*\n?/, "")
-            .replace(/\n?```$/, "");
-
-          return (
-            <pre
-              key={blockIndex}
-              className="overflow-x-auto rounded-2xl bg-zinc-950 px-4 py-3 text-[13px] text-zinc-100 shadow-inner dark:bg-black"
-            >
-              <code className="font-mono whitespace-pre-wrap break-words">
-                {code}
-              </code>
-            </pre>
-          );
-        }
-
-        const lines = trimmedBlock.split("\n").map((line) => line.trim());
-        const bulletLines = lines.filter((line) => /^[-*]\s+/.test(line));
-        const numberedLines = lines.filter((line) => /^\d+\.\s+/.test(line));
-        const headingMatch = trimmedBlock.match(/^(#{1,3})\s+(.+)$/);
-
-        if (headingMatch) {
-          const level = headingMatch[1].length;
-          const headingText = headingMatch[2];
-          const headingClass =
-            level === 1
-              ? "text-base font-semibold"
-              : level === 2
-                ? "text-sm font-semibold"
-                : "text-sm font-medium";
-
-          return (
-            <p key={blockIndex} className={headingClass}>
-              {renderInlineMarkdown(headingText)}
-            </p>
-          );
-        }
-
-        if (bulletLines.length === lines.length) {
-          return (
-            <ul key={blockIndex} className="list-disc space-y-1 pl-5">
-              {lines.map((line, lineIndex) => (
-                <li key={lineIndex}>
-                  {renderInlineMarkdown(line.replace(/^[-*]\s+/, ""))}
-                </li>
-              ))}
-            </ul>
-          );
-        }
-
-        if (numberedLines.length === lines.length) {
-          return (
-            <ol key={blockIndex} className="list-decimal space-y-1 pl-5">
-              {lines.map((line, lineIndex) => (
-                <li key={lineIndex}>
-                  {renderInlineMarkdown(line.replace(/^\d+\.\s+/, ""))}
-                </li>
-              ))}
-            </ol>
-          );
-        }
+      {paragraphs.map((paragraph, index) => {
+        const lines = paragraph.split("\n").filter((line) => line.trim());
 
         return (
-          <p key={blockIndex} className="whitespace-pre-wrap">
-            {renderInlineMarkdown(trimmedBlock)}
+          <p
+            key={index}
+            className="whitespace-pre-wrap break-words [overflow-wrap:anywhere]"
+            style={{ textAlign: "justify", textJustify: "auto", hyphens: "auto" }}
+          >
+            {lines.map((line, lineIndex) => (
+              <span key={lineIndex}>
+                {renderAssistantLine(line)}
+                {lineIndex < lines.length - 1 ? <br /> : null}
+              </span>
+            ))}
           </p>
         );
       })}
@@ -503,7 +473,9 @@ export default function PortfolioChatbot() {
                     </div>
                   ) : null}
                   <div
-                    className={`chatbot-card relative max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-6 shadow-sm ${
+                    className={`chatbot-card relative ${
+                      message.role === "assistant" ? "max-w-[92%]" : "max-w-[85%]"
+                    } rounded-2xl px-4 py-3 text-sm leading-6 shadow-sm ${
                       message.role === "user"
                         ? "chatbot-card-user bg-zinc-900 text-white dark:bg-white dark:text-zinc-900"
                         : "chatbot-card-assistant border border-zinc-200 bg-white text-zinc-800 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100"
@@ -520,7 +492,7 @@ export default function PortfolioChatbot() {
                     {message.role === "assistant" &&
                     typingMessageId === message.id ? (
                       <TypewriterText
-                        text={message.content}
+                        text={normalizeAssistantMessage(message.content)}
                         active
                         speed={ASSISTANT_TYPING_SPEED}
                         onProgress={() => {
@@ -535,7 +507,7 @@ export default function PortfolioChatbot() {
                         }
                       />
                     ) : message.role === "assistant" ? (
-                      <StructuredMessage content={message.content} />
+                      <AssistantMessage content={message.content} />
                     ) : (
                       <p className="whitespace-pre-wrap">{message.content}</p>
                     )}
