@@ -32,6 +32,7 @@ Projects:
 
   * Focused on identifying plant species using technology
   * Demonstrates Leynard's ability to build real-world applications and apply technical knowledge
+  * The mobile app is currently only compatible with Android because iOS testing is limited by the lack of physical resources
 * Data Warehouse and Analytics Project
 
   * A complete data warehousing and analytics solution using SQL Server

@@ -32,7 +32,7 @@ const projectsArray = [
     link: "",
     codeLink: "https://github.com/LeynardPenaranda/kalikascan",
     description:
-      "KalikaScan is a mobile app focused on plant scanning and identification. It uses Plant.id by Kindwise for recognition, Firebase for backend services, Cloudinary for media handling, and a React Native + TypeScript stack for the app experience.",
+      "KalikaScan is a mobile app focused on plant scanning and identification. It uses Plant.id by Kindwise for recognition, Firebase for backend services, Cloudinary for media handling, and a React Native + TypeScript stack for the app experience. At the moment, the mobile app is only compatible with Android because iOS testing is limited by the lack of physical resources.",
     badges: [
       "React Native",
       "Firebase",
@@ -269,7 +269,14 @@ const ProjectCard = () => {
                     className="w-full h-auto object-cover"
                   />
                 </div>
-                <CardTitle className="break-words">{project.name}</CardTitle>
+                <div className="flex flex-wrap items-center gap-2">
+                  <CardTitle className="break-words">{project.name}</CardTitle>
+                  {project.name === "KalikaScan" && (
+                    <p className="text-sm font-medium text-emerald-600">
+                      Android only
+                    </p>
+                  )}
+                </div>
 
                 <Badge
                   variant={
