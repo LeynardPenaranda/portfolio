@@ -54,14 +54,11 @@ function normalizeAssistantMessage(content: string) {
   return content
     .replace(/```[\s\S]*?```/g, "")
     .replace(/`([^`]+)`/g, "$1")
-    .replace(/^#{1,6}\s*/gm, "")
-    .replace(/^\s*[-*]\s+/gm, "")
-    .replace(/^\s*\d+\.\s+/gm, "")
     .replace(/\n{3,}/g, "\n\n")
     .trim();
 }
 
-function renderInlineHighlights(text: string) {
+function renderInlineMarkdown(text: string) {
   const segments = text.split(/(\*\*[^*]+\*\*)/g).filter(Boolean);
 
   return segments.map((segment, index) => {
@@ -77,51 +74,39 @@ function renderInlineHighlights(text: string) {
   });
 }
 
-function renderAssistantLine(line: string) {
-  const trimmedLine = line.trim();
-  if (!trimmedLine) return null;
-
-  if (/^\*\*[^*]+\*\*$/.test(trimmedLine)) {
-    return <strong className="font-semibold">{trimmedLine.slice(2, -2)}</strong>;
-  }
-
-  const colonIndex = trimmedLine.indexOf(":");
-  if (colonIndex > 0 && colonIndex <= 60) {
-    const label = trimmedLine.slice(0, colonIndex + 1);
-    const remainder = trimmedLine.slice(colonIndex + 1);
-
-    return (
-      <>
-        <strong className="font-semibold">{label}</strong>
-        {remainder}
-      </>
-    );
-  }
-
-  return renderInlineHighlights(trimmedLine);
-}
-
-function AssistantMessage({ content }: { content: string }) {
+function StructuredMessage({ content }: { content: string }) {
   const normalizedContent = normalizeAssistantMessage(content);
-  const paragraphs = normalizedContent.split(/\n\s*\n/);
+  const blocks =
+    normalizedContent.match(/(?:[^\n]+\n?)+?(?=\n\s*\n|$)/g) ?? [];
 
   return (
     <div className="space-y-3">
-      {paragraphs.map((paragraph, index) => {
-        const lines = paragraph.split("\n").filter((line) => line.trim());
+      {blocks.map((block, index) => {
+        const trimmedBlock = block.trim();
+        const lines = trimmedBlock.split("\n").map((line) => line.trim());
+        const bulletLines = lines.filter((line) => /^[-*]\s+/.test(line));
+
+        if (/^\*\*[^*]+\*\*$/.test(trimmedBlock)) {
+          return (
+            <p key={index} className="text-base font-semibold">
+              {trimmedBlock.slice(2, -2)}
+            </p>
+          );
+        }
+
+        if (bulletLines.length === lines.length) {
+          return (
+            <ul key={index} className="list-disc space-y-1 pl-5">
+              {lines.map((line, lineIndex) => (
+                <li key={lineIndex}>{renderInlineMarkdown(line.replace(/^[-*]\s+/, ""))}</li>
+              ))}
+            </ul>
+          );
+        }
 
         return (
-          <p
-            key={index}
-            className="whitespace-pre-wrap break-words [overflow-wrap:anywhere]"
-            style={{ textAlign: "justify", textJustify: "auto", hyphens: "auto" }}
-          >
-            {lines.map((line, lineIndex) => (
-              <span key={lineIndex}>
-                {renderAssistantLine(line)}
-                {lineIndex < lines.length - 1 ? <br /> : null}
-              </span>
-            ))}
+          <p key={index} className="whitespace-pre-wrap">
+            {renderInlineMarkdown(trimmedBlock)}
           </p>
         );
       })}
@@ -466,9 +451,9 @@ export default function PortfolioChatbot() {
                       <Image
                         src={CHATBOT_PROFILE_IMAGE}
                         alt="Leynard AI profile"
-                        width={32}
-                        height={32}
-                        className="size-8 object-cover"
+                        width={28}
+                        height={28}
+                        className="size-7 object-cover"
                       />
                     </div>
                   ) : null}
@@ -507,7 +492,7 @@ export default function PortfolioChatbot() {
                         }
                       />
                     ) : message.role === "assistant" ? (
-                      <AssistantMessage content={message.content} />
+                      <StructuredMessage content={message.content} />
                     ) : (
                       <p className="whitespace-pre-wrap">{message.content}</p>
                     )}
@@ -582,7 +567,7 @@ export default function PortfolioChatbot() {
                     : "Ask about Leynard..."
                 }
                 rows={2}
-                disabled={isStaticMode}
+                disabled={isStaticMode || isLoading}
                 className="h-12 flex-1 resize-none rounded-2xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-900 outline-none transition focus:border-sky-400 disabled:cursor-not-allowed disabled:opacity-70 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100"
               />
               <button
