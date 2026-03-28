@@ -1,6 +1,13 @@
 "use client";
 
-import { FormEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
+import {
+  FormEvent,
+  KeyboardEvent,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Image from "next/image";
 import {
   ChevronDown,
@@ -24,9 +31,9 @@ type StaticFaq = {
 const STARTER_MESSAGE =
   "Hi, I'm Leynard's AI assistant. Ask me about his background, skills, projects, or internship goals.";
 const CHATBOT_PROFILE_IMAGE = "/me/leynardAichatbot.jpg";
-const GEMINI_LOGO_IMAGE = "/me/Google-Gemini-Logo-Transparent.png";
-const ASSISTANT_TYPING_SPEED = 22;
 const PROMPT_TYPING_SPEED = 75;
+const RESPONSE_WORD_SPEED = 90;
+const RESPONSE_WORD_BATCH = 2;
 const STATIC_FAQ: StaticFaq[] = [
   {
     question: "What are Leynard's skills?",
@@ -74,42 +81,177 @@ function renderInlineMarkdown(text: string) {
   });
 }
 
-function StructuredMessage({ content }: { content: string }) {
+function getWordTokens(text: string) {
+  return text.match(/\S+\s*/g) ?? [];
+}
+
+function renderInlineMarkdownWithLimit(text: string, wordLimit: number) {
+  const segments = text.split(/(\*\*[^*]+\*\*)/g).filter(Boolean);
+  const nodes: ReactNode[] = [];
+  let remainingWords = wordLimit;
+  let wordsUsed = 0;
+
+  for (const [index, segment] of segments.entries()) {
+    if (remainingWords <= 0) break;
+
+    const isBold = segment.startsWith("**") && segment.endsWith("**");
+    const value = isBold ? segment.slice(2, -2) : segment;
+    const tokens = getWordTokens(value);
+
+    if (tokens.length === 0) continue;
+
+    const visible = tokens.slice(0, remainingWords).join("");
+    const segmentWordsUsed = Math.min(tokens.length, remainingWords);
+
+    if (!visible) continue;
+
+    nodes.push(
+      isBold ? (
+        <strong key={index} className="font-semibold">
+          {visible}
+        </strong>
+      ) : (
+        <span key={index}>{visible}</span>
+      ),
+    );
+
+    remainingWords -= segmentWordsUsed;
+    wordsUsed += segmentWordsUsed;
+  }
+
+  return { nodes, wordsUsed };
+}
+
+function StructuredMessage({
+  content,
+  animated = false,
+  speed = RESPONSE_WORD_SPEED,
+  onProgress,
+  onComplete,
+}: {
+  content: string;
+  animated?: boolean;
+  speed?: number;
+  onProgress?: () => void;
+  onComplete?: () => void;
+}) {
   const normalizedContent = normalizeAssistantMessage(content);
   const blocks =
     normalizedContent.match(/(?:[^\n]+\n?)+?(?=\n\s*\n|$)/g) ?? [];
+  const totalWords = getWordTokens(normalizedContent).length;
+  const [visibleWords, setVisibleWords] = useState(
+    animated ? 0 : totalWords,
+  );
+  const onProgressRef = useRef(onProgress);
+  const onCompleteRef = useRef(onComplete);
+
+  useEffect(() => {
+    onProgressRef.current = onProgress;
+    onCompleteRef.current = onComplete;
+  }, [onComplete, onProgress]);
+
+  useEffect(() => {
+    if (!animated) {
+      setVisibleWords(totalWords);
+      return;
+    }
+
+    setVisibleWords(0);
+
+    const timer = window.setInterval(() => {
+      setVisibleWords((current) =>
+        Math.min(current + RESPONSE_WORD_BATCH, totalWords),
+      );
+    }, speed);
+
+    return () => window.clearInterval(timer);
+  }, [animated, speed, totalWords, normalizedContent]);
+
+  useEffect(() => {
+    if (!animated) return;
+    if (visibleWords <= 0) return;
+
+    onProgressRef.current?.();
+  }, [animated, visibleWords]);
+
+  useEffect(() => {
+    if (!animated) return;
+    if (visibleWords < totalWords) return;
+
+    onCompleteRef.current?.();
+  }, [animated, totalWords, visibleWords]);
+
+  let remainingWords = visibleWords;
 
   return (
     <div className="space-y-3">
       {blocks.map((block, index) => {
+        if (remainingWords <= 0) return null;
+
         const trimmedBlock = block.trim();
         const lines = trimmedBlock.split("\n").map((line) => line.trim());
         const bulletLines = lines.filter((line) => /^[-*]\s+/.test(line));
 
         if (/^\*\*[^*]+\*\*$/.test(trimmedBlock)) {
+          const headingTokens = getWordTokens(trimmedBlock.slice(2, -2));
+          const visible = headingTokens.slice(0, remainingWords).join("");
+          const usedWords = Math.min(headingTokens.length, remainingWords);
+
+          if (!visible) return null;
+
+          remainingWords -= usedWords;
+
           return (
             <p key={index} className="text-base font-semibold">
-              {trimmedBlock.slice(2, -2)}
+              {visible}
             </p>
           );
         }
 
         if (bulletLines.length === lines.length) {
+          const items: ReactNode[] = [];
+
+          for (const [lineIndex, line] of lines.entries()) {
+            if (remainingWords <= 0) break;
+
+            const { nodes, wordsUsed } = renderInlineMarkdownWithLimit(
+              line.replace(/^[-*]\s+/, ""),
+              remainingWords,
+            );
+
+            if (wordsUsed === 0) break;
+
+            remainingWords -= wordsUsed;
+            items.push(<li key={lineIndex}>{nodes}</li>);
+          }
+
+          if (items.length === 0) return null;
+
           return (
             <ul key={index} className="list-disc space-y-1 pl-5">
-              {lines.map((line, lineIndex) => (
-                <li key={lineIndex}>{renderInlineMarkdown(line.replace(/^[-*]\s+/, ""))}</li>
-              ))}
+              {items}
             </ul>
           );
         }
 
+        const { nodes, wordsUsed } = renderInlineMarkdownWithLimit(
+          trimmedBlock,
+          remainingWords,
+        );
+
+        if (wordsUsed === 0) return null;
+
+        remainingWords -= wordsUsed;
+
         return (
           <p key={index} className="whitespace-pre-wrap">
-            {renderInlineMarkdown(trimmedBlock)}
+            {nodes}
           </p>
         );
       })}
+      {animated && visibleWords < totalWords ? (
+        <span className="chatbot-caret" aria-hidden="true" />
+      ) : null}
     </div>
   );
 }
@@ -119,7 +261,7 @@ function TypewriterText({
   active,
   onComplete,
   onProgress,
-  speed = ASSISTANT_TYPING_SPEED,
+  speed = PROMPT_TYPING_SPEED,
 }: {
   text: string;
   active: boolean;
@@ -176,7 +318,9 @@ export default function PortfolioChatbot() {
   const [isStaticMode, setIsStaticMode] = useState(false);
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [nextId, setNextId] = useState(2);
-  const [typingMessageId, setTypingMessageId] = useState<number | null>(1);
+  const [animatingMessageId, setAnimatingMessageId] = useState<number | null>(
+    null,
+  );
   const [messages, setMessages] = useState<ChatMessage[]>([
     { id: 1, role: "assistant", content: STARTER_MESSAGE },
   ]);
@@ -206,7 +350,7 @@ export default function PortfolioChatbot() {
     if (isNearBottom()) {
       scrollToBottom("smooth");
     }
-  }, [isLoading, messages, typingMessageId]);
+  }, [animatingMessageId, isLoading, messages]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -316,7 +460,7 @@ export default function PortfolioChatbot() {
         },
       ]);
       setNextId((current) => current + 1);
-      setTypingMessageId(assistantMessageId);
+      setAnimatingMessageId(assistantMessageId);
     } catch (error) {
       const errorMessage =
         error instanceof Error
@@ -332,7 +476,7 @@ export default function PortfolioChatbot() {
         },
       ]);
       setNextId((current) => current + 1);
-      setTypingMessageId(assistantMessageId);
+      setAnimatingMessageId(assistantMessageId);
     } finally {
       setIsLoading(false);
     }
@@ -350,7 +494,7 @@ export default function PortfolioChatbot() {
       { id: assistantMessageId, role: "assistant", content: item.answer },
     ]);
     setNextId((current) => current + 2);
-    setTypingMessageId(assistantMessageId);
+    setAnimatingMessageId(assistantMessageId);
     window.requestAnimationFrame(() => {
       scrollToBottom("smooth");
     });
@@ -390,43 +534,32 @@ export default function PortfolioChatbot() {
     >
       {isOpen ? (
         <div
-          className={`chatbot-panel flex h-[32rem] w-[min(24rem,calc(100vw-2rem))] flex-col overflow-hidden rounded-3xl border border-white/50 bg-white/90 shadow-2xl backdrop-blur dark:border-white/10 dark:bg-zinc-950/90 ${
+          className={`chatbot-panel flex h-[32rem] w-[min(24rem,calc(100vw-2rem))] flex-col overflow-hidden rounded-3xl border border-zinc-200 bg-white shadow-2xl backdrop-blur dark:border-zinc-800 dark:bg-black ${
             isClosing ? "chatbot-panel-out" : "chatbot-panel-in"
           }`}
         >
-          <div className="flex items-center justify-between bg-gradient-to-r from-sky-500 via-cyan-500 to-emerald-500 px-4 py-3 text-white">
+          <div className="flex items-center justify-between border-b border-zinc-200 bg-black px-4 py-3 text-white dark:border-zinc-800">
             <div className="flex items-center gap-3">
-              <div className="overflow-hidden rounded-full ring-2 ring-white/30">
+              <div className="overflow-hidden rounded-full ring-1 ring-white/25">
                 <Image
                   src={CHATBOT_PROFILE_IMAGE}
                   alt="Leynard AI profile"
-                  width={40}
-                  height={40}
-                  className="size-10 object-cover"
+                  width={34}
+                  height={34}
+                  className="size-[34px] rounded-full object-cover"
                 />
               </div>
               <div>
                 <p className="text-sm font-semibold">Ask Leynard AI</p>
-                <div className="mt-1 flex items-center gap-2 text-xs text-white/85">
-                  <span className="leading-none">
-                    Portfolio assistant powered by Gemini
-                  </span>
-                  <span className="inline-flex items-center justify-center rounded-full bg-white/15 p-1.5 backdrop-blur-sm">
-                    <Image
-                      src={GEMINI_LOGO_IMAGE}
-                      alt="Gemini logo"
-                      width={20}
-                      height={20}
-                      className="block size-5 object-contain"
-                    />
-                  </span>
-                </div>
+                <p className="mt-1 text-xs text-zinc-300">
+                  Portfolio assistant
+                </p>
               </div>
             </div>
             <button
               type="button"
               onClick={handleCloseChat}
-              className="rounded-full p-2 transition hover:bg-white/15"
+              className="rounded-full p-2 transition hover:bg-white/10"
               aria-label="Close chatbot"
             >
               <X className="size-5" />
@@ -436,7 +569,7 @@ export default function PortfolioChatbot() {
           <div
             ref={scrollAreaRef}
             onScroll={handleScroll}
-            className="relative flex-1 space-y-3 overflow-y-auto bg-gradient-to-b from-slate-50 to-white px-4 py-4 dark:from-zinc-900 dark:to-zinc-950"
+            className="relative flex-1 space-y-3 overflow-y-auto bg-gradient-to-b from-zinc-50 to-white px-4 py-4 dark:from-zinc-950 dark:to-black"
           >
             {messages.map((message) => (
               <div
@@ -447,13 +580,13 @@ export default function PortfolioChatbot() {
               >
                 <div className="flex max-w-[92%] items-end gap-2">
                   {message.role === "assistant" ? (
-                    <div className="overflow-hidden rounded-full border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
+                    <div className="overflow-hidden rounded-full border border-zinc-300 bg-white dark:border-zinc-700 dark:bg-zinc-950">
                       <Image
                         src={CHATBOT_PROFILE_IMAGE}
                         alt="Leynard AI profile"
-                        width={28}
-                        height={28}
-                        className="size-7 object-cover"
+                        width={24}
+                        height={24}
+                        className="size-6 rounded-full object-cover"
                       />
                     </div>
                   ) : null}
@@ -462,37 +595,33 @@ export default function PortfolioChatbot() {
                       message.role === "assistant" ? "max-w-[92%]" : "max-w-[85%]"
                     } rounded-2xl px-4 py-3 text-sm leading-6 shadow-sm ${
                       message.role === "user"
-                        ? "chatbot-card-user bg-zinc-900 text-white dark:bg-white dark:text-zinc-900"
-                        : "chatbot-card-assistant border border-zinc-200 bg-white text-zinc-800 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100"
+                        ? "chatbot-card-user bg-black text-white dark:bg-white dark:text-black"
+                        : "chatbot-card-assistant border border-zinc-300 bg-white text-zinc-900 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100"
                     }`}
                   >
                     <span
                       aria-hidden="true"
                       className={`absolute bottom-3 h-3 w-3 rotate-45 ${
                         message.role === "user"
-                          ? "-right-1 bg-zinc-900 dark:bg-white"
-                          : "-left-1 border-r border-b border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900"
+                          ? "-right-1 bg-black dark:bg-white"
+                          : "-left-1 border-r border-b border-zinc-300 bg-white dark:border-zinc-700 dark:bg-zinc-950"
                       }`}
                     />
-                    {message.role === "assistant" &&
-                    typingMessageId === message.id ? (
-                      <TypewriterText
-                        text={normalizeAssistantMessage(message.content)}
-                        active
-                        speed={ASSISTANT_TYPING_SPEED}
+                    {message.role === "assistant" ? (
+                      <StructuredMessage
+                        content={message.content}
+                        animated={animatingMessageId === message.id}
                         onProgress={() => {
                           if (isNearBottom()) {
                             scrollToBottom("auto");
                           }
                         }}
                         onComplete={() =>
-                          setTypingMessageId((current) =>
-                            current === message.id ? null : current
+                          setAnimatingMessageId((current) =>
+                            current === message.id ? null : current,
                           )
                         }
                       />
-                    ) : message.role === "assistant" ? (
-                      <StructuredMessage content={message.content} />
                     ) : (
                       <p className="whitespace-pre-wrap">{message.content}</p>
                     )}
@@ -503,9 +632,9 @@ export default function PortfolioChatbot() {
 
             {isLoading ? (
               <div className="flex justify-start">
-                <div className="inline-flex items-center gap-2 rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-600 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300">
+                <div className="inline-flex items-center gap-2 rounded-2xl border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-700 shadow-sm dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300">
                   <LoaderCircle className="size-4 animate-spin" />
-                  Typing
+                  Responding
                   <span className="chatbot-dots" aria-hidden="true">
                     <span />
                     <span />
@@ -515,12 +644,12 @@ export default function PortfolioChatbot() {
               </div>
             ) : null}
             {isStaticMode ? (
-              <div className="rounded-2xl border border-sky-200 bg-sky-50/80 p-3 text-sm text-sky-900 shadow-sm dark:border-sky-500/20 dark:bg-sky-500/10 dark:text-sky-100">
+              <div className="rounded-2xl border border-zinc-300 bg-zinc-100 p-3 text-sm text-zinc-900 shadow-sm dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100">
                 <p className="font-semibold">Static mode is active</p>
-                <p className="mt-1 text-xs leading-5 text-sky-800/90 dark:text-sky-100/80">
-                  Gemini is temporarily unavailable because the free-tier daily
-                  limit was reached. You can still explore Leynard&apos;s profile
-                  using the question bubbles below.
+                <p className="mt-1 text-xs leading-5 text-zinc-700 dark:text-zinc-300">
+                  Live AI responses are temporarily unavailable. You can still
+                  explore Leynard&apos;s profile using the question bubbles
+                  below.
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {STATIC_FAQ.map((item) => (
@@ -528,7 +657,7 @@ export default function PortfolioChatbot() {
                       key={item.question}
                       type="button"
                       onClick={() => handleStaticQuestionSelect(item)}
-                      className="cursor-pointer rounded-full border border-sky-200 bg-white px-3 py-2 text-xs font-medium text-sky-700 transition hover:-translate-y-0.5 hover:bg-sky-100 dark:border-sky-500/25 dark:bg-zinc-900 dark:text-sky-200 dark:hover:bg-zinc-800"
+                      className="cursor-pointer rounded-full border border-zinc-300 bg-white px-3 py-2 text-xs font-medium text-zinc-800 transition hover:-translate-y-0.5 hover:bg-zinc-200 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100 dark:hover:bg-zinc-800"
                     >
                       {item.question}
                     </button>
@@ -541,12 +670,12 @@ export default function PortfolioChatbot() {
 
           <form
             onSubmit={handleSubmit}
-            className="relative border-t border-zinc-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-950"
+            className="relative border-t border-zinc-200 bg-white p-3 dark:border-zinc-800 dark:bg-black"
           >
             <button
               type="button"
               onClick={() => scrollToBottom("smooth")}
-              className={`chatbot-scroll-button absolute top-0 left-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-2 rounded-full border border-sky-200 bg-white/95 px-4 py-2 text-xs font-medium text-sky-600 shadow-lg backdrop-blur transition dark:border-sky-500/20 dark:bg-zinc-900/95 dark:text-sky-300 ${
+              className={`chatbot-scroll-button absolute top-0 left-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-2 rounded-full border border-zinc-300 bg-white/95 px-4 py-2 text-xs font-medium text-zinc-800 shadow-lg backdrop-blur transition dark:border-zinc-700 dark:bg-zinc-950/95 dark:text-zinc-100 ${
                 showScrollButton
                   ? "pointer-events-auto opacity-100"
                   : "pointer-events-none opacity-0"
@@ -568,12 +697,12 @@ export default function PortfolioChatbot() {
                 }
                 rows={2}
                 disabled={isStaticMode || isLoading}
-                className="h-12 flex-1 resize-none rounded-2xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-900 outline-none transition focus:border-sky-400 disabled:cursor-not-allowed disabled:opacity-70 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100"
+                className="h-12 flex-1 resize-none rounded-2xl border border-zinc-300 bg-zinc-50 px-4 py-3 text-sm text-zinc-900 outline-none transition focus:border-zinc-500 disabled:cursor-not-allowed disabled:opacity-70 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100"
               />
               <button
                 type="submit"
                 disabled={isLoading || !input.trim() || isStaticMode}
-                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-r from-sky-500 to-emerald-500 text-white transition hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60"
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-black text-white transition hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60 dark:bg-white dark:text-black"
                 aria-label="Send message"
               >
                 <Send className="size-4" />
@@ -584,7 +713,7 @@ export default function PortfolioChatbot() {
       ) : (
         <div className="relative flex items-end justify-end">
           <div
-            className={`pointer-events-none absolute right-0 bottom-[4.5rem] chatbot-prompt rounded-2xl border border-sky-200/70 bg-white/95 px-4 py-2 text-sm font-medium text-sky-950 shadow-xl backdrop-blur dark:border-sky-500/20 dark:bg-zinc-950/95 dark:text-sky-100 ${
+            className={`pointer-events-none absolute right-0 bottom-[4.5rem] chatbot-prompt rounded-2xl border border-zinc-300 bg-white/95 px-4 py-2 text-sm font-medium text-zinc-950 shadow-xl backdrop-blur dark:border-zinc-700 dark:bg-zinc-950/95 dark:text-zinc-100 ${
               showPromptBubble ? "chatbot-prompt-in" : "chatbot-prompt-out"
             }`}
           >
@@ -598,10 +727,10 @@ export default function PortfolioChatbot() {
           <button
             type="button"
             onClick={handleOpenChat}
-            className="chatbot-launcher group relative flex size-14 cursor-pointer items-center justify-center rounded-full bg-gradient-to-r from-sky-500 via-cyan-500 to-emerald-500 text-white shadow-2xl transition hover:-translate-y-1"
+            className="chatbot-launcher group relative flex h-14 w-14 cursor-pointer items-center justify-center rounded-[10px] bg-black text-white shadow-2xl transition hover:-translate-y-1 dark:bg-white dark:text-black"
             aria-label="Open chatbot"
           >
-            <span className="absolute inset-0 rounded-full bg-white/15 opacity-0 transition group-hover:opacity-100" />
+            <span className="absolute inset-0 rounded-[10px] bg-white/10 opacity-0 transition group-hover:opacity-100 dark:bg-black/10" />
             <MessageCircle className="relative z-10 size-6" />
           </button>
         </div>
