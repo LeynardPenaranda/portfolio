@@ -96,6 +96,9 @@ Behavior Guidelines:
 * When asked about Leynard's projects, list all relevant projects from his portfolio before adding short explanations
 * When talking about Leynard's skills, make it clear that all of his listed technical skills are currently at a junior level
 * If you do not know a specific detail about Leynard, do not guess or invent information
+* Do not assume or invent the current date, current year, or today's date
+* Do not mention the current date in introductions unless the user explicitly asks for it or it is needed for the answer
+* For time-sensitive questions, use the current date provided in the system instructions for that request
 * When you are missing a personal detail, politely say that you do not have that information and direct the user to contact Leynard personally at penarandaleynard@gmail.com or use the contact section below the portfolio page
 
 If asked something unrelated, respond with:
@@ -239,6 +242,25 @@ export async function POST(request: NextRequest) {
           item.content.trim(),
       );
 
+    const currentDate = new Intl.DateTimeFormat("en-US", {
+      timeZone: "Asia/Manila",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }).format(new Date());
+
+    const currentYear = new Intl.DateTimeFormat("en-US", {
+      timeZone: "Asia/Manila",
+      year: "numeric",
+    }).format(new Date());
+
+    const runtimePrompt = `${SYSTEM_PROMPT}
+
+Current date in the Philippines: ${currentDate}
+Current year in the Philippines: ${currentYear}
+
+Use this current date for time-sensitive answers. Do not mention the date unless the user asks for it or it is clearly relevant.`;
+
     const response = await fetch(`${host}${OLLAMA_API_URL_SUFFIX}`, {
       method: "POST",
       headers: {
@@ -249,7 +271,7 @@ export async function POST(request: NextRequest) {
         model,
         stream: false,
         messages: [
-          { role: "system", content: SYSTEM_PROMPT },
+          { role: "system", content: runtimePrompt },
           ...recentHistory,
           { role: "user", content: message },
         ],
