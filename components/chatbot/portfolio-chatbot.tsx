@@ -530,7 +530,7 @@ export default function PortfolioChatbot() {
   return (
     <div
       ref={containerRef}
-      className="fixed right-4 bottom-4 z-[60] sm:right-6 sm:bottom-6"
+      className="fixed right-4 bottom-[6.5rem] z-[60] sm:right-6 sm:bottom-[6.5rem]"
     >
       {isOpen ? (
         <div
