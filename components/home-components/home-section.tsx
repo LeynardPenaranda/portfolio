@@ -39,9 +39,12 @@ const HomeComponent = () => {
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="w-full mt-10 text-center"
             >
-              Hi, I’m <b>Leynard Peñaranda</b>, a junior developer pursuing a{" "}
-              <b>Bachelor of Science in Information Systems (BSIS)</b>. I’m
-              seeking internships in <b>data engineering</b> to apply my{" "}
+              Hi, I’m <b>Leynard Peñaranda</b>, a junior developer and
+              currently a <b>3rd-year BSIS student</b> pursuing a{" "}
+              <b>Bachelor of Science in Information Systems (BSIS)</b>, and I
+              am set to transition to <b>4th year</b> in the coming school
+              year. I’m seeking internships in <b>data engineering</b> to apply
+              my{" "}
               <b>junior-level experience</b> with <b>Hadoop</b>, <b>Hive</b>,{" "}
               <b>Spark</b>, <b>Kafka</b>, and <b>SQL</b>. I also have{" "}
               <b>junior-level experience</b> building responsive web apps using{" "}
