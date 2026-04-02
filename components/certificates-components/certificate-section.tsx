@@ -83,6 +83,13 @@ const CertificateSection = () => {
 
   const cert = [
     {
+      id: 101,
+      name: "DataCamp Intermediate SQL",
+      image: "/images/datacamp-logo.png",
+      issued: "DataCamp",
+      link: "https://drive.google.com/file/d/1m2AXKsXprx_lBegkrFkCSh5zGkaHbFXh/view?usp=sharing",
+    },
+    {
       id: 1,
       name: "The Complete Full-Stack Web Development Bootcamp",
       image: "/images/udemy.png",
