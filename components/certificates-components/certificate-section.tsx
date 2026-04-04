@@ -90,6 +90,13 @@ const CertificateSection = () => {
       link: "https://drive.google.com/file/d/1m2AXKsXprx_lBegkrFkCSh5zGkaHbFXh/view?usp=sharing",
     },
     {
+      id: 102,
+      name: "Streaming Data with AWS Kinesis and Lambda",
+      image: "/images/datacamp-logo.png",
+      issued: "DataCamp",
+      link: "https://www.datacamp.com/statement-of-accomplishment/course/1f083d11f900cfcd8a4c545d779feca8eb3de627?raw=1",
+    },
+    {
       id: 1,
       name: "The Complete Full-Stack Web Development Bootcamp",
       image: "/images/udemy.png",
