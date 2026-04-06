@@ -97,6 +97,13 @@ const CertificateSection = () => {
       link: "https://www.datacamp.com/statement-of-accomplishment/course/1f083d11f900cfcd8a4c545d779feca8eb3de627?raw=1",
     },
     {
+      id: 103,
+      name: "AWS Certified Data Engineer Associate 2026 - Hands On!",
+      image: "/images/udemy.png",
+      issued: "Udemy",
+      link: "https://drive.google.com/file/d/11uBJxrWpJYI63MGoMwEeHga3bLgJf26l/view?usp=sharing",
+    },
+    {
       id: 1,
       name: "The Complete Full-Stack Web Development Bootcamp",
       image: "/images/udemy.png",
