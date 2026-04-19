@@ -17,7 +17,7 @@ const Navbar = ({ flex = "flex-row" }: { flex: string }) => {
         </a>
       ))}
       <Link
-        href="https://drive.google.com/file/d/1g32fHgV8HWzkZ2sVDQM8g9EYEZCIOXe8/view?usp=sharing"
+        href="https://drive.google.com/file/d/1b00vZftY9cYnWe2Ti1Dv_H3pOc6K8gRG/view?usp=sharing"
         className="flex items-center"
         target="_blank"
         rel="noopener noreferrer"
