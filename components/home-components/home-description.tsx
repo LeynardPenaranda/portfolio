@@ -3,7 +3,7 @@
 const DescriptionProfile = () => {
   return (
     <h1 className=" font-bold text-4xl text-center px-2">
-      Aspiring data engineering intern
+      Open for Opportunities | Software Dev & Data Engineering
     </h1>
   );
 };
