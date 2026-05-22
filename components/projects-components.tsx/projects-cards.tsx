@@ -23,7 +23,7 @@ type Project = {
   installLink?: string;
 };
 
-const projectsArray = [
+const projectsArray: Project[] = [
   {
     id: 103,
     name: "KalikaScan",
@@ -227,7 +227,7 @@ const projectsArray = [
     ],
     featured: true,
   },
- ] satisfies Project[];
+];
 
 const ProjectCard = () => {
   const [privateRepoProject, setPrivateRepoProject] = useState<Project | null>(
