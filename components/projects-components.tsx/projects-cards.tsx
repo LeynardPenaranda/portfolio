@@ -41,7 +41,6 @@ const projectsArray = [
       "TypeScript",
     ],
     featured: true,
-    isPrivateRepo: true,
     installLink:
       "https://drive.google.com/file/d/1uadSYDrOalyl3ggVVieSEzY6p98xXDzZ/view?usp=sharing",
   },
