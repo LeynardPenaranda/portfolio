@@ -48,12 +48,12 @@ const STATIC_FAQ: StaticFaq[] = [
   {
     question: "What is Leynard looking for right now?",
     answer:
-      "**Goals**\n- Leynard is an aspiring Data Engineer.\n- He is actively looking for internship opportunities.\n- He wants to gain real-world experience, deepen his data engineering skills, and keep learning every day. 🚀",
+      "**Goals**\n- Leynard is a 4th-year BSIS student.\n- He is actively looking for internship opportunities in data and software development.\n- He wants to gain real-world experience, deepen his technical skills, and keep learning every day. 🚀",
   },
   {
     question: "Tell me about Leynard's background",
     answer:
-      "**Background**\n- **Full Name**: Leynard M. Peñaranda\n- **Location**: Catbalogan City, Samar, Philippines\n- **University**: Samar State University\n- **Program**: BS in Information Systems\n- **Status**: Currently a 3rd-year student in the 2nd semester, taking final exams, and close to transitioning to 4th year",
+      "**Background**\n- **Full Name**: Leynard M. Peñaranda\n- **Location**: Catbalogan City, Samar, Philippines\n- **University**: Samar State University\n- **Program**: BS in Information Systems\n- **Status**: Currently a 4th-year BSIS student seeking internships in data and software development",
   },
 ];
 
@@ -63,22 +63,6 @@ function normalizeAssistantMessage(content: string) {
     .replace(/`([^`]+)`/g, "$1")
     .replace(/\n{3,}/g, "\n\n")
     .trim();
-}
-
-function renderInlineMarkdown(text: string) {
-  const segments = text.split(/(\*\*[^*]+\*\*)/g).filter(Boolean);
-
-  return segments.map((segment, index) => {
-    if (segment.startsWith("**") && segment.endsWith("**")) {
-      return (
-        <strong key={index} className="font-semibold">
-          {segment.slice(2, -2)}
-        </strong>
-      );
-    }
-
-    return <span key={index}>{segment}</span>;
-  });
 }
 
 function getWordTokens(text: string) {

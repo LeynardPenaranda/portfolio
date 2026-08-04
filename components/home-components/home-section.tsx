@@ -40,16 +40,16 @@ const HomeComponent = () => {
               className="w-full mt-10 text-center"
             >
               Hi, I’m <b>Leynard Peñaranda</b>, a junior developer and
-              currently a <b>3rd-year BSIS student</b> pursuing a{" "}
-              <b>Bachelor of Science in Information Systems (BSIS)</b>, and I
-              am set to transition to <b>4th year</b> in the coming school
-              year. I’m seeking internships in <b>data engineering</b> to apply
-              my{" "}
+              currently a <b>4th-year BSIS student</b> pursuing a{" "}
+              <b>Bachelor of Science in Information Systems (BSIS)</b>. I’m
+              seeking internships in <b>data</b> and{" "}
+              <b>software development</b>, where I can apply my{" "}
               <b>junior-level experience</b> with <b>Hadoop</b>, <b>Hive</b>,{" "}
-              <b>Spark</b>, <b>Kafka</b>, and <b>SQL</b>. I also have{" "}
-              <b>junior-level experience</b> building responsive web apps using{" "}
-              <b>React</b>, <b>Next.js</b>, and <b>Tailwind CSS</b>, along with
-              a foundation in <b>cybersecurity</b>.
+              <b>Spark</b>, <b>Kafka</b>, and <b>SQL</b>, as well as my
+              experience building responsive web apps using <b>React</b>,{" "}
+              <b>Next.js</b>, and <b>Tailwind CSS</b>. I also have a foundation
+              in <b>cybersecurity</b> and enjoy learning through practical,
+              real-world projects.
             </motion.p>
             <div className="flex w-full items-center justify-center mt-4">
               <div className="flex items-center gap-5">
