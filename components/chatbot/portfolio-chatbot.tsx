@@ -48,7 +48,7 @@ const STATIC_FAQ: StaticFaq[] = [
   {
     question: "What is Leynard looking for right now?",
     answer:
-      "**Goals**\n- Leynard is a 4th-year BSIS student.\n- He is actively looking for internship opportunities in data and software development.\n- He wants to gain real-world experience, deepen his technical skills, and keep learning every day. 🚀",
+      "**Goals**\n- Leynard is a 4th-year BSIS student.\n- He is actively looking for opportunities in data and software development.\n- He hopes to find a long-term role where he can grow professionally, strengthen his skills, contribute meaningful value, and build a lasting career with the organization.",
   },
   {
     question: "Tell me about Leynard's background",
