@@ -37,19 +37,15 @@ const HomeComponent = () => {
               initial={{ opacity: 0, y: 40 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
-              className="w-full mt-10 text-center"
+              className="mx-auto mt-10 w-full max-w-3xl text-center leading-relaxed"
             >
-              Hi, I’m <b>Leynard Peñaranda</b>, a junior developer and
-              currently a <b>4th-year BSIS student</b> pursuing a{" "}
-              <b>Bachelor of Science in Information Systems (BSIS)</b>. I’m
-              seeking internships in <b>data</b> and{" "}
-              <b>software development</b>, where I can apply my{" "}
-              <b>junior-level experience</b> with <b>Hadoop</b>, <b>Hive</b>,{" "}
-              <b>Spark</b>, <b>Kafka</b>, and <b>SQL</b>, as well as my
-              experience building responsive web apps using <b>React</b>,{" "}
-              <b>Next.js</b>, and <b>Tailwind CSS</b>. I also have a foundation
-              in <b>cybersecurity</b> and enjoy learning through practical,
-              real-world projects.
+              I&apos;m <b>Leynard Pe&ntilde;aranda</b>, a junior developer and{" "}
+              <b>4th-year BSIS student</b> with a passion for turning ideas into
+              practical digital solutions. I enjoy working with <b>data</b>,{" "}
+              <b>software development</b>, and <b>cybersecurity</b>, while
+              continuously learning through hands-on projects. Take a look
+              around to explore my experience, projects, certificates, and the
+              technologies I work with.
             </motion.p>
             <div className="flex w-full items-center justify-center mt-4">
               <div className="flex items-center gap-5">

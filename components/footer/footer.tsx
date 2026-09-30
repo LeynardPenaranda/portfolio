@@ -7,8 +7,7 @@ const Footer = () => {
   return (
     <div className="fixed bottom-0 left-0 bg-background w-full h-[5rem]  border-t border-gray-300 flex items-center justify-around">
       <span className="px-2">
-        {" "}
-        ©Leynard M Peñaranda - {currentYear} All rights reserved.
+        &copy;Leynard M Peñaranda - {currentYear} All rights reserved.
       </span>
       <Link
         href="https://drive.google.com/file/d/1IxAWbaP1jAQ6ypoTMJLpDRpp3QgiIcQY/view?usp=sharing"
