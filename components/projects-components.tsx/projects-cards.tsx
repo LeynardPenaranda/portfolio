@@ -25,6 +25,18 @@ type Project = {
 
 const projectsArray: Project[] = [
   {
+    id: 104,
+    name: "QueueSSU",
+    status: "active",
+    image: "/images/queueSSU.png",
+    link: "https://queue-ssu-nine.vercel.app/",
+    codeLink: "https://github.com/LeynardPenaranda/queueSSU",
+    description:
+      "QueueSSU is a web-based smart queuing system built to address long queues at Samar State University. It helps organize the flow of students and other visitors seeking university services, addressing crowded waiting areas, uncertainty about whose turn comes next, and the time spent standing in line. By making the queuing process clearer and more orderly, QueueSSU supports a smoother service experience for visitors and helps university staff manage demand more efficiently.",
+    badges: ["Web Application", "Smart Queuing", "University Services"],
+    featured: true,
+  },
+  {
     id: 103,
     name: "KalikaScan",
     status: "active",
