@@ -10,7 +10,8 @@ const Footer = () => {
         &copy;Leynard M Peñaranda - {currentYear} All rights reserved.
       </span>
       <Link
-        href="https://drive.google.com/file/d/1IxAWbaP1jAQ6ypoTMJLpDRpp3QgiIcQY/view?usp=sharing"
+        href="https://drive.google.com/file/d/1KTtW4_taZ2dOoYvItzYVYSUGTrEESLnY/view?usp=sharing"
+        aria-label="View CV"
         className="flex items-center"
         target="_blank"
         rel="noopener noreferrer"

@@ -17,13 +17,13 @@ const Navbar = ({ flex = "flex-row" }: { flex: string }) => {
         </a>
       ))}
       <Link
-        href="https://drive.google.com/file/d/1IxAWbaP1jAQ6ypoTMJLpDRpp3QgiIcQY/view?usp=sharing"
+        href="https://drive.google.com/file/d/1KTtW4_taZ2dOoYvItzYVYSUGTrEESLnY/view?usp=sharing"
         className="flex items-center"
         target="_blank"
         rel="noopener noreferrer"
       >
         <FileUser className="h-3 w-3" />
-        Resume
+        CV
       </Link>
     </nav>
   );
