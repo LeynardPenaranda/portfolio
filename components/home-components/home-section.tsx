@@ -39,13 +39,14 @@ const HomeComponent = () => {
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="mx-auto mt-10 w-full max-w-3xl text-center leading-relaxed"
             >
-              I&apos;m <b>Leynard Pe&ntilde;aranda</b>, a junior developer and{" "}
-              <b>4th-year BSIS student</b> with a passion for turning ideas into
-              practical digital solutions. I enjoy working with <b>data</b>,{" "}
-              <b>software development</b>, and <b>cybersecurity</b>, while
-              continuously learning through hands-on projects. Take a look
-              around to explore my experience, projects, certificates, and the
-              technologies I work with.
+              I&apos;m <b>Leynard Pe&ntilde;aranda</b>, a <b>4th-year BSIS student</b>{" "}
+              and <b>aspiring Network Engineer and IT Support Specialist</b>. I&apos;m
+              actively looking for <b>IT Support internships</b> to gain hands-on
+              experience in technical support, troubleshooting, and networking.
+              I also enjoy working with data, software development, and
+              cybersecurity while continuously learning through hands-on
+              projects. Take a look around to explore my experience, projects,
+              certificates, and the technologies I work with.
             </motion.p>
             <div className="flex w-full items-center justify-center mt-4">
               <div className="flex items-center gap-5">

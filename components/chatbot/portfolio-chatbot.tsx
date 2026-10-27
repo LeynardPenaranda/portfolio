@@ -48,12 +48,12 @@ const STATIC_FAQ: StaticFaq[] = [
   {
     question: "What is Leynard looking for right now?",
     answer:
-      "**Goals**\n- Leynard is a 4th-year BSIS student.\n- He is actively looking for opportunities in data and software development.\n- He hopes to find a long-term role where he can grow professionally, strengthen his skills, contribute meaningful value, and build a lasting career with the organization.",
+      "**Goals**\n- Leynard is a 4th-year BSIS student.\n- His first priority is an IT Support internship as an aspiring Network Engineer and IT Support Specialist.\n- Data-related internships, including data engineering, data analytics, and business intelligence, are his second priority.\n- He hopes to find a long-term role where he can grow professionally, strengthen his skills, contribute meaningful value, and build a lasting career with the organization.",
   },
   {
     question: "Tell me about Leynard's background",
     answer:
-      "**Background**\n- **Full Name**: Leynard M. Peñaranda\n- **Location**: Catbalogan City, Samar, Philippines\n- **University**: Samar State University\n- **Program**: BS in Information Systems\n- **Status**: Currently a 4th-year BSIS student seeking internships in data and software development",
+      "**Background**\n- **Full Name**: Leynard M. Peñaranda\n- **Location**: Catbalogan City, Samar, Philippines\n- **University**: Samar State University\n- **Program**: BS in Information Systems\n- **Status**: Currently a 4th-year BSIS student primarily seeking IT Support internships\n- **Career Goal**: Aspiring Network Engineer and IT Support Specialist\n- **Second Priority**: Data-related internships",
   },
 ];
 
